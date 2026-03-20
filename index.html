@@ -845,9 +845,12 @@
         { n: 99, arabic: "الصبور", latin: "As-Sabur" }
       ];
 
-      // NOTE: “All root words” are loaded from ./public/data/quranRoots.json at runtime.
+      // NOTE: Quran root words (with meanings) are loaded from ./public/data/quranRootsWithMeanings.json at runtime.
       // This keeps the index.html size reasonable, while still working offline via service worker cache.
-      const ROOT_DATA_URL = "/data/quranRoots.json";
+      const ROOT_DATA_URL = "/data/quranRootsWithMeanings.json";
+
+      // 99 Names of Allah (with meanings) are loaded from ./public/data/allah99.json at runtime.
+      const ALLAH_DATA_URL = "/data/allah99.json";
 
       // Fallback for `file://` usage (the full list requires running via a local server so fetch() works).
       const ROOT_WORDS_FALLBACK = [
@@ -917,6 +920,13 @@
         return Math.max(min, Math.min(max, n));
       }
 
+      function truncateText(text, maxLen = 40) {
+        const s = String(text ?? "").trim();
+        if (!s) return "";
+        if (s.length <= maxLen) return s;
+        return s.slice(0, Math.max(0, maxLen - 1)) + "…";
+      }
+
       function randIntInclusive(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
@@ -956,6 +966,8 @@
 
       let rootWords = null; // array of {id,name,count,occurences}
       let rootWordById = null; // Map
+
+      let allahNames = null; // array of {n,arabic,latin,meaning}
 
       let rootLibraryFiltered = [];
       let rootLibraryPage = 0;
@@ -1038,7 +1050,10 @@
             if (!item) return;
             const chip = document.createElement("div");
             chip.className = "chip";
-            chip.innerHTML = `<strong>${item.name}</strong> · ${item.count} refs`;
+            const meaningShort = item.meaning ? truncateText(item.meaning, 32) : "";
+            chip.innerHTML = `<strong>${item.name}</strong> · ${item.count} refs${
+              meaningShort ? " · " + meaningShort : ""
+            }`;
             rootsRow.appendChild(chip);
           });
 
@@ -1059,7 +1074,10 @@
           $("#allahPlanBadge").textContent = `Name #${name.n}`;
           const chip = document.createElement("div");
           chip.className = "chip";
-          chip.innerHTML = `<strong>${name.arabic}</strong> · ${name.latin}`;
+          const meaningShort = name.meaning ? truncateText(name.meaning, 34) : "";
+          chip.innerHTML = `<strong>${name.arabic}</strong> · ${name.latin}${
+            meaningShort ? " · " + meaningShort : ""
+          }`;
           allahRow.appendChild(chip);
         } else {
           $("#allahPlanBadge").textContent = "Pick a name";
@@ -1136,7 +1154,9 @@
           idxs.forEach((i) => selectedRootWordIds.push(rootWords[i].id));
         }
 
-        const selectedAllahName = ALLAH_NAMES_99[randIntInclusive(0, ALLAH_NAMES_99.length - 1)];
+        const allahList = allahNames && allahNames.length ? allahNames : ALLAH_NAMES_99;
+        const selectedAllahName =
+          allahList[randIntInclusive(0, allahList.length - 1)];
         const selectedAyahPlan = AYAH_PLANS[randIntInclusive(0, AYAH_PLANS.length - 1)];
 
         state.day.dayKey = current;
@@ -1303,7 +1323,8 @@
 
           const meta = document.createElement("div");
           meta.className = "meta";
-          meta.textContent = `${item.count} references`;
+          const meaningShort = item.meaning ? truncateText(item.meaning, 52) : "";
+          meta.textContent = `${item.count} refs${meaningShort ? " · " + meaningShort : ""}`;
 
           left.appendChild(name);
           left.appendChild(meta);
@@ -1330,7 +1351,9 @@
         list.innerHTML = "";
         const selected = state.day.selectedAllahName ? state.day.selectedAllahName.arabic : null;
 
-        ALLAH_NAMES_99.forEach((name) => {
+        const source = allahNames && allahNames.length ? allahNames : ALLAH_NAMES_99;
+
+        source.forEach((name) => {
           const item = document.createElement("div");
           item.className = "listItem";
 
@@ -1343,7 +1366,10 @@
 
           const meta = document.createElement("div");
           meta.className = "meta";
-          meta.textContent = `#${name.n} · ${name.latin}`;
+          const meaningShort = name.meaning ? truncateText(name.meaning, 56) : "";
+          meta.textContent = `#${name.n} · ${name.latin}${
+            meaningShort ? " · " + meaningShort : ""
+          }`;
 
           left.appendChild(n);
           left.appendChild(meta);
@@ -1373,6 +1399,19 @@
         rootWordById = new Map(rootWords.map((x) => [x.id, x]));
       }
 
+      async function loadAllahNames() {
+        const res = await fetch(ALLAH_DATA_URL, { cache: "force-cache" });
+        if (!res.ok) throw new Error("Failed to load Allah names dataset");
+        const json = await res.json();
+        const data = Array.isArray(json?.data) ? json.data : [];
+        allahNames = data.map((x) => ({
+          n: x.number,
+          arabic: x.name,
+          latin: x.transliteration,
+          meaning: x.en?.meaning || x.en?.desc || ""
+        }));
+      }
+
       async function init() {
         load();
 
@@ -1388,12 +1427,28 @@
             '<div class="chip">Offline root preview loaded. Run <strong>npm run dev</strong> for the full library.</div>';
         }
 
+        // Load Allah names with meanings.
+        try {
+          await loadAllahNames();
+        } catch (_) {
+          allahNames = null; // fall back to arabic+latin without meanings
+        }
+
         // If day key is missing or out of date, reset and handle streak.
         if (!state.day.dayKey) state.day.dayKey = todayKey();
 
+        // Remove any stale root selections from previous datasets.
+        if (Array.isArray(state.day.selectedRootWordIds) && rootWordById) {
+          state.day.selectedRootWordIds = state.day.selectedRootWordIds.filter((id) =>
+            rootWordById.has(id)
+          );
+        }
+
         // Ensure required selections exist.
         if (!state.day.selectedAllahName) {
-          state.day.selectedAllahName = ALLAH_NAMES_99[randIntInclusive(0, ALLAH_NAMES_99.length - 1)];
+          const allahList = allahNames && allahNames.length ? allahNames : ALLAH_NAMES_99;
+          state.day.selectedAllahName =
+            allahList[randIntInclusive(0, allahList.length - 1)];
         }
         if (!state.day.selectedAyahPlan) {
           state.day.selectedAyahPlan = AYAH_PLANS[randIntInclusive(0, AYAH_PLANS.length - 1)];
@@ -1425,8 +1480,9 @@
           } else {
             state.day.selectedRootWordIds = [];
           }
+          const allahList = allahNames && allahNames.length ? allahNames : ALLAH_NAMES_99;
           state.day.selectedAllahName =
-            ALLAH_NAMES_99[randIntInclusive(0, ALLAH_NAMES_99.length - 1)];
+            allahList[randIntInclusive(0, allahList.length - 1)];
           state.day.selectedAyahPlan = AYAH_PLANS[randIntInclusive(0, AYAH_PLANS.length - 1)];
           save();
           render();

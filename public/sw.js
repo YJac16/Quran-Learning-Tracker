@@ -9,7 +9,8 @@ const CORE_ASSETS = [
   "/index.html",
   "/manifest.json",
   "/sw.js",
-  "/data/quranRoots.json"
+  "/data/quranRootsWithMeanings.json",
+  "/data/allah99.json"
 ];
 
 self.addEventListener("install", (event) => {
