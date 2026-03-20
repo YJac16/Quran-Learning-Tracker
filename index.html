@@ -1,0 +1,1504 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0b1220" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="manifest" href="/manifest.json" />
+    <title>Quran Learning Tracker</title>
+    <style>
+      :root {
+        --bg0: #070b16;
+        --bg1: #0b1220;
+        --bg2: #111c33;
+        --card: rgba(255, 255, 255, 0.06);
+        --card2: rgba(255, 255, 255, 0.09);
+        --border: rgba(255, 255, 255, 0.14);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.68);
+        --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+        --shadow2: 0 10px 28px rgba(0, 0, 0, 0.28);
+        --ring: rgba(99, 102, 241, 0.45);
+        --pill: rgba(255, 255, 255, 0.08);
+        --pillBorder: rgba(255, 255, 255, 0.18);
+        --green0: #22c55e;
+        --green1: #16a34a;
+        --red0: #ef4444;
+        --blue0: #60a5fa;
+        --blue1: #3b82f6;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Helvetica,
+          Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        background: radial-gradient(1000px 600px at 20% 10%, #1b2a5a55 0%, transparent 60%),
+          radial-gradient(900px 550px at 90% 15%, #0ea5e955 0%, transparent 55%),
+          linear-gradient(135deg, var(--bg0), var(--bg1) 40%, var(--bg2));
+        color: var(--text);
+        direction: rtl;
+      }
+
+      .app {
+        max-width: 420px;
+        margin: 0 auto;
+        padding: 18px 14px 28px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .brand h1 {
+        margin: 0;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+      }
+
+      .brand p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .pill {
+        border: 1px solid var(--pillBorder);
+        background: var(--pill);
+        color: var(--text);
+        padding: 10px 14px;
+        border-radius: 999px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+        transition: transform 140ms ease, background 160ms ease, border-color 160ms ease;
+        cursor: pointer;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .pill:active {
+        transform: scale(0.98);
+      }
+
+      .pill.primary {
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(14, 165, 233, 0.18));
+        border-color: rgba(99, 102, 241, 0.45);
+      }
+
+      .pill.complete {
+        background: linear-gradient(135deg, rgba(34, 197, 94, 0.25), rgba(22, 163, 74, 0.18));
+        border-color: rgba(34, 197, 94, 0.55);
+        box-shadow: 0 12px 36px rgba(34, 197, 94, 0.18);
+      }
+
+      .pill.danger {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.22), rgba(239, 68, 68, 0.12));
+        border-color: rgba(239, 68, 68, 0.5);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 26px;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        box-shadow: var(--shadow2);
+        padding: 14px 14px 12px;
+      }
+
+      .hero {
+        margin-bottom: 12px;
+      }
+
+      .progressRow {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 12px;
+      }
+
+      .progressText {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .progressText .big {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .progressText .small {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .bar {
+        height: 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        overflow: hidden;
+        margin-top: 6px;
+      }
+
+      .bar > div {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(96, 165, 250, 0.85), rgba(99, 102, 241, 0.85));
+        transition: width 420ms cubic-bezier(0.2, 0.9, 0.2, 1);
+      }
+
+      .grid {
+        display: grid;
+        gap: 10px;
+      }
+
+      .taskCard {
+        padding: 14px 14px 12px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .taskCard.is-flash {
+        animation: flash 650ms ease;
+      }
+
+      @keyframes flash {
+        0% {
+          transform: translateY(0);
+          box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+        }
+        40% {
+          transform: translateY(-2px);
+          box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.14), 0 18px 60px rgba(0, 0, 0, 0.35);
+        }
+        100% {
+          transform: translateY(0);
+          box-shadow: var(--shadow2);
+        }
+      }
+
+      .taskTop {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .taskTitle {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .taskTitle .t {
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .taskTitle .d {
+        font-size: 12px;
+        color: var(--muted);
+      }
+
+      .chipRow {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 10px;
+      }
+
+      .chip {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 12px;
+        box-shadow: 0 8px 22px rgba(0, 0, 0, 0.18);
+      }
+
+      .chip strong {
+        font-weight: 700;
+      }
+
+      .taskActions {
+        margin-top: 12px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+
+      textarea {
+        width: 100%;
+        min-height: 88px;
+        resize: vertical;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.14);
+        color: var(--text);
+        padding: 12px 12px;
+        outline: none;
+        font-family: inherit;
+        font-size: 12.5px;
+        line-height: 1.4;
+        transition: box-shadow 160ms ease, border-color 160ms ease;
+      }
+
+      textarea:focus {
+        box-shadow: 0 0 0 5px var(--ring);
+        border-color: rgba(99, 102, 241, 0.55);
+      }
+
+      .bottom {
+        margin-top: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .bottomRow {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .motivation {
+        text-align: center;
+        color: rgba(255, 255, 255, 0.82);
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        padding: 10px 14px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .motivation::after {
+        content: "";
+        position: absolute;
+        inset: -2px;
+        background: radial-gradient(220px 60px at 50% 0%, rgba(99, 102, 241, 0.35), transparent 55%);
+        opacity: 0;
+        transition: opacity 200ms ease;
+      }
+
+      .motivation.is-swap::after {
+        opacity: 1;
+      }
+
+      .motivationText {
+        font-size: 12.5px;
+        font-weight: 600;
+      }
+
+      .toast {
+        position: fixed;
+        left: 50%;
+        top: 28px;
+        transform: translateX(-50%) translateY(-10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 240ms ease, transform 240ms ease;
+        z-index: 40;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
+      .toastInner {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        box-shadow: 0 16px 60px rgba(0, 0, 0, 0.45);
+        color: rgba(255, 255, 255, 0.92);
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      .toastInner .spark {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #34d399;
+        box-shadow: 0 0 0 8px rgba(52, 211, 153, 0.22), 0 0 24px rgba(52, 211, 153, 0.45);
+        animation: pop 900ms ease infinite;
+      }
+
+      @keyframes pop {
+        0% {
+          transform: scale(0.9);
+          opacity: 0.8;
+        }
+        50% {
+          transform: scale(1.15);
+          opacity: 1;
+        }
+        100% {
+          transform: scale(0.95);
+          opacity: 0.85;
+        }
+      }
+
+      /* Modal */
+      .modalOverlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(6px);
+        -webkit-backdrop-filter: blur(6px);
+        display: none;
+        z-index: 50;
+      }
+
+      .modalOverlay.show {
+        display: block;
+      }
+
+      .modal {
+        max-width: 420px;
+        margin: 20px auto;
+        padding: 14px;
+      }
+
+      .modalCard {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 28px;
+        box-shadow: 0 28px 100px rgba(0, 0, 0, 0.52);
+        padding: 14px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      .modalHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .modalHeader .title {
+        font-weight: 800;
+        font-size: 14px;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .tabs button {
+        flex: 1;
+        padding: 10px 12px;
+      }
+
+      .tabs button.active {
+        border-color: rgba(99, 102, 241, 0.5);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(14, 165, 233, 0.18));
+      }
+
+      .searchRow {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+
+      .searchRow input {
+        flex: 1;
+        border-radius: 999px;
+        padding: 10px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.18);
+        color: var(--text);
+        outline: none;
+        font-family: inherit;
+        font-size: 13px;
+      }
+
+      .searchRow input:focus {
+        box-shadow: 0 0 0 5px var(--ring);
+        border-color: rgba(99, 102, 241, 0.55);
+      }
+
+      .list {
+        max-height: 52vh;
+        overflow: auto;
+        padding-left: 6px;
+      }
+
+      .listItem {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 10px 10px;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.05);
+        margin-bottom: 8px;
+      }
+
+      .listItem .left {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+      }
+
+      .listItem .name {
+        font-weight: 800;
+        font-size: 13.5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .listItem .meta {
+        font-size: 11.5px;
+        color: var(--muted);
+      }
+
+      .miniBtn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .taskBtnWrap {
+        width: 100%;
+      }
+
+      .taskBtnWrap button {
+        width: 100%;
+        padding: 11px 14px;
+      }
+
+      .spinner {
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        border: 2px solid rgba(255, 255, 255, 0.25);
+        border-top-color: rgba(96, 165, 250, 0.95);
+        animation: spin 900ms linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .srOnly {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border-width: 0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="toast" id="dayCompleteToast" role="status" aria-live="polite">
+      <div class="toastInner">
+        <span class="spark" aria-hidden="true"></span>
+        <span>Day Complete</span>
+      </div>
+    </div>
+
+    <div class="app">
+      <div class="topbar">
+        <div class="brand">
+          <h1>Quran Learning Tracker</h1>
+          <p id="todayLabel">Today</p>
+        </div>
+        <div class="pill primary" id="streakPill" title="Consecutive completed days">
+          🔥 0 Day Streak
+        </div>
+      </div>
+
+      <div class="card hero">
+        <div class="progressRow">
+          <div class="progressText">
+            <div class="big" id="progressCompletedText">0/4 completed</div>
+            <div class="small" id="progressPercentText">0% progress</div>
+            <div class="bar" aria-label="Daily progress">
+              <div id="progressBarFill" style="width: 0%"></div>
+            </div>
+          </div>
+          <div class="taskBtnWrap" style="max-width: 140px">
+            <button class="pill danger" id="resetDayBtn" type="button">Reset Day</button>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top: 10px">
+          <section class="card taskCard" data-task="rootWords">
+            <div class="taskTop">
+              <div class="taskTitle">
+                <div class="t">Learn 3–5 Root Words</div>
+                <div class="d">Pick what you will focus on today</div>
+              </div>
+              <span class="chip" id="rootPlanCount">0 selected</span>
+            </div>
+            <div class="chipRow" id="rootWordsChipRow"></div>
+            <div class="taskActions">
+              <button class="pill miniBtn" type="button" id="openRootsLibraryBtn">
+                Open Library
+              </button>
+            </div>
+            <div class="taskActions">
+              <div class="taskBtnWrap">
+                <button class="pill" type="button" data-toggle="rootWords" aria-pressed="false">
+                  Mark complete
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="card taskCard" data-task="allahName">
+            <div class="taskTop">
+              <div class="taskTitle">
+                <div class="t">Learn 1 Name of Allah</div>
+                <div class="d">One name, meaningful and steady</div>
+              </div>
+              <span class="chip" id="allahPlanBadge">Pick a name</span>
+            </div>
+            <div class="chipRow" id="allahNameChipRow"></div>
+            <div class="taskActions">
+              <button class="pill miniBtn" type="button" id="openAllahLibraryBtn">
+                Open Library
+              </button>
+            </div>
+            <div class="taskActions">
+              <div class="taskBtnWrap">
+                <button class="pill" type="button" data-toggle="allahName" aria-pressed="false">
+                  Mark complete
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="card taskCard" data-task="ayahs">
+            <div class="taskTop">
+              <div class="taskTitle">
+                <div class="t">Read 5–10 Ayahs</div>
+                <div class="d">A small session builds momentum</div>
+              </div>
+              <span class="chip" id="ayahCountBadge">Plan ready</span>
+            </div>
+            <div class="chipRow" id="ayahPlanChipRow"></div>
+            <div class="taskActions">
+              <div class="taskBtnWrap">
+                <button class="pill" type="button" data-toggle="ayahs" aria-pressed="false">
+                  Mark complete
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="card taskCard" data-task="reflection">
+            <div class="taskTop">
+              <div class="taskTitle">
+                <div class="t">Reflection</div>
+                <div class="d">Write or simply reflect in your heart</div>
+              </div>
+              <span class="chip" id="reflectionBadge">Optional</span>
+            </div>
+            <textarea
+              id="reflectionText"
+              placeholder="A few lines… What did you learn today?"
+              autocomplete="off"
+            ></textarea>
+            <div class="taskActions">
+              <div class="taskBtnWrap">
+                <button class="pill" type="button" data-toggle="reflection" aria-pressed="false">
+                  Mark complete
+                </button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="bottom">
+          <div class="bottomRow">
+            <button class="pill primary" type="button" id="openAllLibrariesBtn">
+              Libraries
+            </button>
+            <button class="pill" type="button" id="refreshPlanBtn" title="Regenerate today's suggestions">
+              New Suggestions
+            </button>
+          </div>
+          <div class="motivation" id="motivationBox" aria-live="polite">
+            <div class="motivationText" id="motivationText">Start small. Stay consistent.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modalOverlay" id="modalOverlay" role="dialog" aria-modal="true" aria-label="Libraries">
+      <div class="modal">
+        <div class="modalCard">
+          <div class="modalHeader">
+            <div class="title">Libraries</div>
+            <button class="pill" type="button" id="closeModalBtn" aria-label="Close">Close</button>
+          </div>
+
+          <div class="tabs">
+            <button class="pill" type="button" id="tabRoots">Root Words</button>
+            <button class="pill" type="button" id="tabAllah">Names of Allah</button>
+          </div>
+
+          <div id="rootsTab" style="display: none">
+            <div class="searchRow">
+              <input id="rootSearchInput" type="search" placeholder="Search root words (Arabic)..." />
+              <div class="pill miniBtn" id="rootsSelectedBadge" title="Selected for today's plan">0/5</div>
+            </div>
+            <div class="list" id="rootsList"></div>
+            <div class="taskActions" style="margin-top: 10px">
+              <button class="pill miniBtn" type="button" id="rootsLoadMoreBtn">Load more</button>
+            </div>
+          </div>
+
+          <div id="allahTab" style="display: none">
+            <div class="list" id="allahList"></div>
+          </div>
+
+          <div class="taskActions" style="margin-top: 12px; justify-content: center">
+            <button class="pill complete" type="button" id="modalSaveBtn">Save selections</button>
+          </div>
+          <div class="srOnly" id="modalHint">
+            Use the libraries to pick root words and a Name of Allah for today.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const STORAGE_KEY = "quranLearningTracker.v1";
+
+      const prompts = [
+        "Start small. Stay consistent.",
+        "Allah sees your effort.",
+        "Even 5 minutes counts.",
+        "Consistency > intensity.",
+        "Build the habit, not pressure."
+      ];
+
+      // A curated daily Ayah-set suggestion (the app tracks only completion, not memorization).
+      const AYAH_PLANS = [
+        { id: "fatihah", label: "Al-Fatihah (1:1–1:7)", count: 7 },
+        { id: "baqarah5", label: "Al-Baqarah (2:1–2:5)", count: 5 },
+        { id: "baqarah7", label: "Al-Baqarah (2:3–2:9)", count: 7 },
+        { id: "baqarah10", label: "Al-Baqarah (2:3–2:12)", count: 10 },
+        { id: "nisa7", label: "An-Nisa (4:1–4:7)", count: 7 },
+        { id: "imran6", label: "Ali 'Imran (3:26–3:31)", count: 6 },
+        { id: "kahf9", label: "Al-Kahf (18:1–18:9)", count: 9 },
+        { id: "kahf10", label: "Al-Kahf (18:1–18:10)", count: 10 },
+        { id: "kafirun6", label: "Al-Kafirun (109:1–109:6)", count: 6 },
+        { id: "duha8", label: "Ad-Duha (93:1–93:8)", count: 8 },
+        { id: "yasin10", label: "Yaseen (36:1–36:10)", count: 10 },
+        { id: "isra7", label: "Al-Isra (17:1–17:7)", count: 7 }
+      ];
+
+      // 99 Names of Allah (Arabic + transliteration). (No backend; stored in code for offline use.)
+      const ALLAH_NAMES_99 = [
+        { n: 1, arabic: "الرحمن", latin: "Ar-Rahman" },
+        { n: 2, arabic: "الرحيم", latin: "Ar-Rahim" },
+        { n: 3, arabic: "الملك", latin: "Al-Malik" },
+        { n: 4, arabic: "القدوس", latin: "Al-Quddus" },
+        { n: 5, arabic: "السلام", latin: "As-Salam" },
+        { n: 6, arabic: "المؤمن", latin: "Al-Mu'min" },
+        { n: 7, arabic: "المهيمن", latin: "Al-Muhaymin" },
+        { n: 8, arabic: "العزيز", latin: "Al-'Aziz" },
+        { n: 9, arabic: "الجبار", latin: "Al-Jabbar" },
+        { n: 10, arabic: "المتكبر", latin: "Al-Mutakabbir" },
+        { n: 11, arabic: "الخالق", latin: "Al-Khaliq" },
+        { n: 12, arabic: "البارئ", latin: "Al-Bari'" },
+        { n: 13, arabic: "المصور", latin: "Al-Musawwir" },
+        { n: 14, arabic: "الغفار", latin: "Al-Ghaffar" },
+        { n: 15, arabic: "القهار", latin: "Al-Qahhar" },
+        { n: 16, arabic: "الوهاب", latin: "Al-Wahhab" },
+        { n: 17, arabic: "الرزاق", latin: "Ar-Razzaq" },
+        { n: 18, arabic: "الفتاح", latin: "Al-Fattah" },
+        { n: 19, arabic: "العليم", latin: "Al-'Alim" },
+        { n: 20, arabic: "القابض", latin: "Al-Qabid" },
+        { n: 21, arabic: "الباسط", latin: "Al-Basit" },
+        { n: 22, arabic: "الخافض", latin: "Al-Khafid" },
+        { n: 23, arabic: "الرافع", latin: "Ar-Rafi'" },
+        { n: 24, arabic: "المعز", latin: "Al-Mu'izz" },
+        { n: 25, arabic: "المذل", latin: "Al-Mudhill" },
+        { n: 26, arabic: "السميع", latin: "As-Sami'" },
+        { n: 27, arabic: "البصير", latin: "Al-Basir" },
+        { n: 28, arabic: "الحكم", latin: "Al-Hakam" },
+        { n: 29, arabic: "العدل", latin: "Al-'Adl" },
+        { n: 30, arabic: "اللطيف", latin: "Al-Latif" },
+        { n: 31, arabic: "الخبير", latin: "Al-Khabir" },
+        { n: 32, arabic: "الحليم", latin: "Al-Halim" },
+        { n: 33, arabic: "العظيم", latin: "Al-'Azim" },
+        { n: 34, arabic: "الغفور", latin: "Al-Ghafur" },
+        { n: 35, arabic: "الشكور", latin: "Ash-Shakur" },
+        { n: 36, arabic: "العلي", latin: "Al-'Ali" },
+        { n: 37, arabic: "الكبير", latin: "Al-Kabir" },
+        { n: 38, arabic: "الحفيظ", latin: "Al-Hafiz" },
+        { n: 39, arabic: "المقيت", latin: "Al-Muqit" },
+        { n: 40, arabic: "الحسيب", latin: "Al-Hasib" },
+        { n: 41, arabic: "الجليل", latin: "Al-Jalil" },
+        { n: 42, arabic: "الكريم", latin: "Al-Karim" },
+        { n: 43, arabic: "الرقيب", latin: "Ar-Raqib" },
+        { n: 44, arabic: "المجيب", latin: "Al-Mujib" },
+        { n: 45, arabic: "الواسع", latin: "Al-Wasi'" },
+        { n: 46, arabic: "الحكيم", latin: "Al-Hakim" },
+        { n: 47, arabic: "الودود", latin: "Al-Wadud" },
+        { n: 48, arabic: "المجيد", latin: "Al-Majid" },
+        { n: 49, arabic: "الباعث", latin: "Al-Ba'ith" },
+        { n: 50, arabic: "الشهيد", latin: "Ash-Shahid" },
+        { n: 51, arabic: "الحق", latin: "Al-Haqq" },
+        { n: 52, arabic: "الوكيل", latin: "Al-Wakil" },
+        { n: 53, arabic: "القوي", latin: "Al-Qawiy" },
+        { n: 54, arabic: "المتين", latin: "Al-Matin" },
+        { n: 55, arabic: "الولي", latin: "Al-Wali" },
+        { n: 56, arabic: "الحميد", latin: "Al-Hamid" },
+        { n: 57, arabic: "المحصي", latin: "Al-Muhsi" },
+        { n: 58, arabic: "المبدئ", latin: "Al-Mubdi'" },
+        { n: 59, arabic: "المعيد", latin: "Al-Mu'id" },
+        { n: 60, arabic: "المحيي", latin: "Al-Muhyi" },
+        { n: 61, arabic: "المميت", latin: "Al-Mumit" },
+        { n: 62, arabic: "الحي", latin: "Al-Hayy" },
+        { n: 63, arabic: "القيوم", latin: "Al-Qayyum" },
+        { n: 64, arabic: "الواجد", latin: "Al-Wajid" },
+        { n: 65, arabic: "الماجد", latin: "Al-Majid" },
+        { n: 66, arabic: "الواحد", latin: "Al-Wahid" },
+        { n: 67, arabic: "الصمد", latin: "As-Samad" },
+        { n: 68, arabic: "القادر", latin: "Al-Qadir" },
+        { n: 69, arabic: "المقتدر", latin: "Al-Muqtadir" },
+        { n: 70, arabic: "المقدم", latin: "Al-Muqaddim" },
+        { n: 71, arabic: "المؤخر", latin: "Al-Mu'akhkhir" },
+        { n: 72, arabic: "الأول", latin: "Al-Awwal" },
+        { n: 73, arabic: "الآخر", latin: "Al-Akhir" },
+        { n: 74, arabic: "الظاهر", latin: "Az-Zahir" },
+        { n: 75, arabic: "الباطن", latin: "Al-Batin" },
+        { n: 76, arabic: "الوالي", latin: "Al-Wali" },
+        { n: 77, arabic: "المتعالي", latin: "Al-Muta'ali" },
+        { n: 78, arabic: "البر", latin: "Al-Barr" },
+        { n: 79, arabic: "التواب", latin: "At-Tawwab" },
+        { n: 80, arabic: "المنتقم", latin: "Al-Muntaqim" },
+        { n: 81, arabic: "العفو", latin: "Al-'Afuww" },
+        { n: 82, arabic: "الرؤوف", latin: "Ar-Ra'uf" },
+        { n: 83, arabic: "مالك الملك", latin: "Malik al-Mulk" },
+        { n: 84, arabic: "ذو الجلال والإكرام", latin: "Dhu al-Jalal wal Ikram" },
+        { n: 85, arabic: "المقسط", latin: "Al-Muqsit" },
+        { n: 86, arabic: "الجامع", latin: "Al-Jami'" },
+        { n: 87, arabic: "الغني", latin: "Al-Ghani" },
+        { n: 88, arabic: "المغني", latin: "Al-Mughni" },
+        { n: 89, arabic: "المانع", latin: "Al-Mani'" },
+        { n: 90, arabic: "الضار", latin: "Ad-Darr" },
+        { n: 91, arabic: "النافع", latin: "An-Nafi'" },
+        { n: 92, arabic: "النور", latin: "An-Nur" },
+        { n: 93, arabic: "الهادي", latin: "Al-Hadi" },
+        { n: 94, arabic: "البديع", latin: "Al-Badi'" },
+        { n: 95, arabic: "الباقي", latin: "Al-Baqi" },
+        { n: 96, arabic: "الوارث", latin: "Al-Warith" },
+        { n: 97, arabic: "الرشيد", latin: "Ar-Rashid" },
+        { n: 99, arabic: "الصبور", latin: "As-Sabur" }
+      ];
+
+      // NOTE: “All root words” are loaded from ./public/data/quranRoots.json at runtime.
+      // This keeps the index.html size reasonable, while still working offline via service worker cache.
+      const ROOT_DATA_URL = "/data/quranRoots.json";
+
+      // Fallback for `file://` usage (the full list requires running via a local server so fetch() works).
+      const ROOT_WORDS_FALLBACK = [
+        { id: 1, name: "كتب", count: "0" },
+        { id: 2, name: "قرأ", count: "0" },
+        { id: 3, name: "علم", count: "0" },
+        { id: 4, name: "رحم", count: "0" },
+        { id: 5, name: "غفر", count: "0" },
+        { id: 6, name: "خلق", count: "0" },
+        { id: 7, name: "رزق", count: "0" },
+        { id: 8, name: "هدى", count: "0" },
+        { id: 9, name: "ضلل", count: "0" },
+        { id: 10, name: "ذكر", count: "0" },
+        { id: 11, name: "صبر", count: "0" },
+        { id: 12, name: "شكر", count: "0" },
+        { id: 13, name: "إيمان", count: "0" },
+        { id: 14, name: "كفر", count: "0" },
+        { id: 15, name: "توب", count: "0" },
+        { id: 16, name: "حق", count: "0" },
+        { id: 17, name: "باطل", count: "0" },
+        { id: 18, name: "عدل", count: "0" },
+        { id: 19, name: "ظلم", count: "0" },
+        { id: 20, name: "نصر", count: "0" },
+        { id: 21, name: "خذل", count: "0" },
+        { id: 22, name: "بر", count: "0" },
+        { id: 23, name: "إثم", count: "0" },
+        { id: 24, name: "صدق", count: "0" },
+        { id: 25, name: "كذب", count: "0" },
+        { id: 26, name: "خوف", count: "0" },
+        { id: 27, name: "رجاء", count: "0" },
+        { id: 28, name: "دعاء", count: "0" },
+        { id: 29, name: "عبادة", count: "0" },
+        { id: 30, name: "حكم", count: "0" },
+        { id: 31, name: "علم", count: "0" },
+        { id: 32, name: "سلم", count: "0" },
+        { id: 33, name: "إحسان", count: "0" },
+        { id: 34, name: "قوم", count: "0" },
+        { id: 35, name: "أمر", count: "0" },
+        { id: 36, name: "نهى", count: "0" },
+        { id: 37, name: "ختم", count: "0" },
+        { id: 38, name: "نور", count: "0" },
+        { id: 39, name: "ملك", count: "0" },
+        { id: 40, name: "ملكوت", count: "0" }
+      ];
+
+      const TASK_KEYS = ["rootWords", "allahName", "ayahs", "reflection"];
+
+      const $ = (sel) => document.querySelector(sel);
+
+      function todayKey(d = new Date()) {
+        const yyyy = d.getFullYear();
+        const mm = String(d.getMonth() + 1).padStart(2, "0");
+        const dd = String(d.getDate()).padStart(2, "0");
+        return `${yyyy}-${mm}-${dd}`;
+      }
+
+      function diffDays(dayAKey, dayBKey) {
+        // dayA - dayB in local time, in whole days.
+        const [ay, am, ad] = dayAKey.split("-").map(Number);
+        const [by, bm, bd] = dayBKey.split("-").map(Number);
+        const a = new Date(ay, am - 1, ad);
+        const b = new Date(by, bm - 1, bd);
+        return Math.round((a - b) / (24 * 60 * 60 * 1000));
+      }
+
+      function clamp(n, min, max) {
+        return Math.max(min, Math.min(max, n));
+      }
+
+      function randIntInclusive(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function pickDistinctRandomInts(count, maxExclusive) {
+        // Fast enough for 3-5 picks from ~80k.
+        const picked = new Set();
+        const maxAttempts = 5000;
+        let attempts = 0;
+        while (picked.size < count && attempts < maxAttempts) {
+          const idx = Math.floor(Math.random() * maxExclusive);
+          picked.add(idx);
+          attempts++;
+        }
+        return Array.from(picked.values());
+      }
+
+      let state = {
+        meta: {
+          streak: 0,
+          lastCompletedDayKey: null
+        },
+        day: {
+          dayKey: null,
+          tasks: {
+            rootWords: false,
+            allahName: false,
+            ayahs: false,
+            reflection: false
+          },
+          reflectionText: "",
+          selectedRootWordIds: [],
+          selectedAllahName: null,
+          selectedAyahPlan: null
+        }
+      };
+
+      let rootWords = null; // array of {id,name,count,occurences}
+      let rootWordById = null; // Map
+
+      let rootLibraryFiltered = [];
+      let rootLibraryPage = 0;
+      const ROOT_LIBRARY_PAGE_SIZE = 60;
+      let rootLibraryQuery = "";
+
+      let deferredInstallPrompt = null;
+      let motivationIndex = 0;
+      let motivationIntervalId = null;
+
+      function save() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function load() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return;
+          const parsed = JSON.parse(raw);
+          if (parsed && typeof parsed === "object") {
+            state.meta = { ...state.meta, ...(parsed.meta || {}) };
+            state.day = { ...state.day, ...(parsed.day || {}) };
+          }
+        } catch (_) {
+          // Ignore corrupted localStorage.
+        }
+      }
+
+      function updateProgress() {
+        const completed = TASK_KEYS.reduce((acc, k) => acc + (state.day.tasks[k] ? 1 : 0), 0);
+        const pct = Math.round((completed / TASK_KEYS.length) * 100);
+        $("#progressCompletedText").textContent = `${completed}/${TASK_KEYS.length} completed`;
+        $("#progressPercentText").textContent = `${pct}% progress`;
+        $("#progressBarFill").style.width = `${pct}%`;
+      }
+
+      function renderTaskCard(taskKey, animate = false) {
+        const card = document.querySelector(`[data-task="${taskKey}"]`);
+        if (!card) return;
+        const btn = card.querySelector(`[data-toggle="${taskKey}"]`);
+        const done = !!state.day.tasks[taskKey];
+
+        btn.classList.toggle("complete", done);
+        btn.setAttribute("aria-pressed", String(done));
+        btn.textContent = done ? "Completed" : "Mark complete";
+
+        // Extra visual highlight when toggled on.
+        if (animate && done) {
+          card.classList.remove("is-flash");
+          // Force reflow to restart animation reliably.
+          void card.offsetWidth;
+          card.classList.add("is-flash");
+        }
+      }
+
+      function render() {
+        const dk = state.day.dayKey || todayKey();
+        $("#todayLabel").textContent = `Today · ${dk}`;
+
+        $("#streakPill").textContent = `🔥 ${state.meta.streak || 0} Day Streak`;
+
+        updateProgress();
+
+        // Root words chips
+        const rootsRow = $("#rootWordsChipRow");
+        rootsRow.innerHTML = "";
+        const selectedRoots = (state.day.selectedRootWordIds || []).slice();
+        $("#rootPlanCount").textContent = `${selectedRoots.length} selected`;
+
+        if (!rootWords || selectedRoots.length === 0) {
+          const el = document.createElement("div");
+          el.className = "chip";
+          el.textContent = "Loading root words…";
+          rootsRow.appendChild(el);
+        } else {
+          const ids = new Set(selectedRoots);
+          // Preserve original selection order.
+          selectedRoots.forEach((id) => {
+            const item = rootWordById.get(id);
+            if (!item) return;
+            const chip = document.createElement("div");
+            chip.className = "chip";
+            chip.innerHTML = `<strong>${item.name}</strong> · ${item.count} refs`;
+            rootsRow.appendChild(chip);
+          });
+
+          // If selection IDs are missing (e.g., dataset changed), show fallback.
+          if (rootsRow.children.length === 0) {
+            const el = document.createElement("div");
+            el.className = "chip";
+            el.textContent = "Generate suggestions";
+            rootsRow.appendChild(el);
+          }
+        }
+
+        // Allah name badge + chip
+        const allahRow = $("#allahNameChipRow");
+        allahRow.innerHTML = "";
+        if (state.day.selectedAllahName) {
+          const name = state.day.selectedAllahName;
+          $("#allahPlanBadge").textContent = `Name #${name.n}`;
+          const chip = document.createElement("div");
+          chip.className = "chip";
+          chip.innerHTML = `<strong>${name.arabic}</strong> · ${name.latin}`;
+          allahRow.appendChild(chip);
+        } else {
+          $("#allahPlanBadge").textContent = "Pick a name";
+          const chip = document.createElement("div");
+          chip.className = "chip";
+          chip.textContent = "No selection yet";
+          allahRow.appendChild(chip);
+        }
+
+        // Ayah plan
+        const ayahRow = $("#ayahPlanChipRow");
+        ayahRow.innerHTML = "";
+        if (state.day.selectedAyahPlan) {
+          $("#ayahCountBadge").textContent = `${state.day.selectedAyahPlan.count} ayahs`;
+          const chip = document.createElement("div");
+          chip.className = "chip";
+          chip.innerHTML = `<strong>${state.day.selectedAyahPlan.label}</strong>`;
+          ayahRow.appendChild(chip);
+        } else {
+          $("#ayahCountBadge").textContent = "Plan ready";
+          const chip = document.createElement("div");
+          chip.className = "chip";
+          chip.textContent = "Select a plan";
+          ayahRow.appendChild(chip);
+        }
+
+        // Reflection
+        $("#reflectionText").value = state.day.reflectionText || "";
+        $("#reflectionBadge").textContent = state.day.tasks.reflection ? "Done" : "Optional";
+
+        // Render each toggle card
+        TASK_KEYS.forEach((k) => renderTaskCard(k, false));
+
+        // Save reflection on input
+      }
+
+      function showToast() {
+        const t = $("#dayCompleteToast");
+        const inner = t.querySelector(".toastInner");
+        const textEl = inner ? inner.querySelector("span:last-child") : null;
+        if (textEl) textEl.textContent = "Day Complete";
+        t.classList.add("show");
+        window.setTimeout(() => t.classList.remove("show"), 2200);
+      }
+
+      function updateStreakForCompletion(completedDayKey) {
+        if (!completedDayKey) return;
+        const prevCompleted = state.meta.lastCompletedDayKey;
+        if (prevCompleted === completedDayKey) return;
+
+        if (!prevCompleted) {
+          state.meta.streak = 1;
+        } else {
+          const diff = diffDays(completedDayKey, prevCompleted);
+          if (diff === 1) state.meta.streak = (state.meta.streak || 0) + 1;
+          else state.meta.streak = 1;
+        }
+        state.meta.lastCompletedDayKey = completedDayKey;
+      }
+
+      function resetDay(force = false) {
+        const current = todayKey();
+        const shouldReset = force || state.day.dayKey !== current;
+        if (!shouldReset) {
+          return;
+        }
+
+        const count = randIntInclusive(3, 5);
+
+        // Generate daily suggestions only if rootWords are loaded.
+        const selectedRootWordIds = [];
+        if (rootWords && rootWords.length > 0) {
+          const idxs = pickDistinctRandomInts(count, rootWords.length);
+          idxs.forEach((i) => selectedRootWordIds.push(rootWords[i].id));
+        }
+
+        const selectedAllahName = ALLAH_NAMES_99[randIntInclusive(0, ALLAH_NAMES_99.length - 1)];
+        const selectedAyahPlan = AYAH_PLANS[randIntInclusive(0, AYAH_PLANS.length - 1)];
+
+        state.day.dayKey = current;
+        state.day.tasks = {
+          rootWords: false,
+          allahName: false,
+          ayahs: false,
+          reflection: false
+        };
+        state.day.reflectionText = "";
+        state.day.selectedRootWordIds = selectedRootWordIds;
+        state.day.selectedAllahName = selectedAllahName;
+        state.day.selectedAyahPlan = selectedAyahPlan;
+
+        save();
+      }
+
+      function handleStreak() {
+        const current = todayKey();
+        const storedDayKey = state.day.dayKey;
+        if (!storedDayKey) {
+          state.day.dayKey = current;
+          save();
+          return;
+        }
+
+        if (storedDayKey === current) return;
+
+        // If the previous stored day was completed, update the streak exactly once.
+        const prevAllComplete = TASK_KEYS.every((k) => !!state.day.tasks[k]);
+        if (prevAllComplete && state.meta.lastCompletedDayKey !== storedDayKey) {
+          updateStreakForCompletion(storedDayKey);
+        }
+
+        // Start fresh for today.
+        resetDay(true);
+      }
+
+      function toggleTask(taskKey) {
+        state.day.tasks[taskKey] = !state.day.tasks[taskKey];
+        save();
+
+        // Progress + UI
+        updateProgress();
+        renderTaskCard(taskKey, true);
+
+        const allComplete = TASK_KEYS.every((k) => !!state.day.tasks[k]);
+        if (allComplete) {
+          const currentDayKey = state.day.dayKey || todayKey();
+          updateStreakForCompletion(currentDayKey);
+          save();
+          $("#streakPill").textContent = `🔥 ${state.meta.streak || 0} Day Streak`;
+          showToast();
+        }
+
+        // Update reflection badge if toggling reflection.
+        if (taskKey === "reflection") {
+          $("#reflectionBadge").textContent = state.day.tasks.reflection ? "Done" : "Optional";
+        }
+      }
+
+      function openModal(tab) {
+        $("#modalOverlay").classList.add("show");
+        setActiveTab(tab);
+        if (tab === "roots") {
+          renderRootsLibrary(true);
+        } else {
+          renderAllahLibrary();
+        }
+      }
+
+      function closeModal() {
+        $("#modalOverlay").classList.remove("show");
+      }
+
+      function setActiveTab(tab) {
+        const btnRoots = $("#tabRoots");
+        const btnAllah = $("#tabAllah");
+
+        const rootsTab = $("#rootsTab");
+        const allahTab = $("#allahTab");
+
+        if (tab === "roots") {
+          btnRoots.classList.add("active");
+          btnAllah.classList.remove("active");
+          rootsTab.style.display = "";
+          allahTab.style.display = "none";
+        } else {
+          btnAllah.classList.add("active");
+          btnRoots.classList.remove("active");
+          allahTab.style.display = "";
+          rootsTab.style.display = "none";
+        }
+      }
+
+      function rootSelectedCount() {
+        return (state.day.selectedRootWordIds || []).length;
+      }
+
+      function toggleRootSelection(rootId) {
+        const ids = state.day.selectedRootWordIds || [];
+        const set = new Set(ids);
+        const currentlySelected = set.has(rootId);
+
+        if (currentlySelected) {
+          state.day.selectedRootWordIds = ids.filter((x) => x !== rootId);
+        } else {
+          // Daily plan allows 3–5, but the user can select up to 5 for flexibility.
+          if (ids.length >= 5) {
+            showLibraryToast("You can select up to 5 root words.");
+            return;
+          }
+          state.day.selectedRootWordIds = [...ids, rootId];
+        }
+
+        save();
+        $("#rootsSelectedBadge").textContent = `${rootSelectedCount()}/5`;
+        // Update chips immediately.
+        render();
+      }
+
+      function showLibraryToast(message) {
+        // Re-use day toast style but keep it simple.
+        const t = $("#dayCompleteToast");
+        const inner = t.querySelector(".toastInner");
+        const textEl = inner ? inner.querySelector("span:last-child") : null;
+        if (textEl) textEl.textContent = message;
+        t.classList.add("show");
+        window.setTimeout(() => t.classList.remove("show"), 1700);
+      }
+
+      function renderRootsLibrary(resetPage = false) {
+        if (!rootWords) return;
+        if (resetPage) rootLibraryPage = 0;
+
+        rootLibraryQuery = ($("#rootSearchInput").value || "").trim();
+        const q = rootLibraryQuery;
+
+        const qNorm = q; // Arabic: simple substring match.
+        const filtered = !qNorm
+          ? rootWords
+          : rootWords.filter((x) => String(x.name || "").includes(qNorm));
+
+        rootLibraryFiltered = filtered;
+
+        const start = rootLibraryPage * ROOT_LIBRARY_PAGE_SIZE;
+        const end = start + ROOT_LIBRARY_PAGE_SIZE;
+        const slice = filtered.slice(start, end);
+
+        const list = $("#rootsList");
+        list.innerHTML = "";
+
+        slice.forEach((item) => {
+          const selected = (state.day.selectedRootWordIds || []).includes(item.id);
+          const el = document.createElement("div");
+          el.className = "listItem";
+
+          const left = document.createElement("div");
+          left.className = "left";
+
+          const name = document.createElement("div");
+          name.className = "name";
+          name.textContent = item.name;
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          meta.textContent = `${item.count} references`;
+
+          left.appendChild(name);
+          left.appendChild(meta);
+
+          const actionBtn = document.createElement("button");
+          actionBtn.type = "button";
+          actionBtn.className = "pill miniBtn" + (selected ? " complete" : "");
+          actionBtn.textContent = selected ? "Selected" : "Select";
+          actionBtn.addEventListener("click", () => toggleRootSelection(item.id));
+
+          el.appendChild(left);
+          el.appendChild(actionBtn);
+          list.appendChild(el);
+        });
+
+        // Controls
+        const loadMoreBtn = $("#rootsLoadMoreBtn");
+        const hasMore = end < filtered.length;
+        loadMoreBtn.style.display = hasMore ? "" : "none";
+      }
+
+      function renderAllahLibrary() {
+        const list = $("#allahList");
+        list.innerHTML = "";
+        const selected = state.day.selectedAllahName ? state.day.selectedAllahName.arabic : null;
+
+        ALLAH_NAMES_99.forEach((name) => {
+          const item = document.createElement("div");
+          item.className = "listItem";
+
+          const left = document.createElement("div");
+          left.className = "left";
+
+          const n = document.createElement("div");
+          n.className = "name";
+          n.textContent = name.arabic;
+
+          const meta = document.createElement("div");
+          meta.className = "meta";
+          meta.textContent = `#${name.n} · ${name.latin}`;
+
+          left.appendChild(n);
+          left.appendChild(meta);
+
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "pill miniBtn" + (selected === name.arabic ? " complete" : "");
+          btn.textContent = selected === name.arabic ? "Chosen" : "Choose";
+          btn.addEventListener("click", () => {
+            state.day.selectedAllahName = name;
+            save();
+            render();
+            renderAllahLibrary();
+          });
+
+          item.appendChild(left);
+          item.appendChild(btn);
+          list.appendChild(item);
+        });
+      }
+
+      async function loadRootWords() {
+        const res = await fetch(ROOT_DATA_URL, { cache: "force-cache" });
+        if (!res.ok) throw new Error("Failed to load root words dataset");
+        const json = await res.json();
+        rootWords = Array.isArray(json) ? json : [];
+        rootWordById = new Map(rootWords.map((x) => [x.id, x]));
+      }
+
+      async function init() {
+        load();
+
+        // Root data must exist before generating daily plan.
+        try {
+          $("#rootWordsChipRow").innerHTML = '<div class="chip"><span class="spinner" aria-hidden="true"></span> Loading…</div>';
+          await loadRootWords();
+        } catch (e) {
+          // If file access is blocked (e.g. opened via file://), the rest of the UI still works.
+          rootWords = ROOT_WORDS_FALLBACK.map((x) => ({ ...x, occurences: [] }));
+          rootWordById = new Map(rootWords.map((x) => [x.id, x]));
+          $("#rootWordsChipRow").innerHTML =
+            '<div class="chip">Offline root preview loaded. Run <strong>npm run dev</strong> for the full library.</div>';
+        }
+
+        // If day key is missing or out of date, reset and handle streak.
+        if (!state.day.dayKey) state.day.dayKey = todayKey();
+
+        // Ensure required selections exist.
+        if (!state.day.selectedAllahName) {
+          state.day.selectedAllahName = ALLAH_NAMES_99[randIntInclusive(0, ALLAH_NAMES_99.length - 1)];
+        }
+        if (!state.day.selectedAyahPlan) {
+          state.day.selectedAyahPlan = AYAH_PLANS[randIntInclusive(0, AYAH_PLANS.length - 1)];
+        }
+        if (!state.day.selectedRootWordIds || state.day.selectedRootWordIds.length === 0) {
+          if (rootWords && rootWords.length > 0) {
+            const count = randIntInclusive(3, 5);
+            const idxs = pickDistinctRandomInts(count, rootWords.length);
+            state.day.selectedRootWordIds = idxs.map((i) => rootWords[i].id);
+          }
+        }
+
+        handleStreak();
+        render();
+
+        // Wire UI events.
+        document.querySelectorAll("[data-toggle]").forEach((btn) => {
+          btn.addEventListener("click", () => toggleTask(btn.getAttribute("data-toggle")));
+        });
+
+        $("#resetDayBtn").addEventListener("click", () => resetDay(true) || render());
+        $("#refreshPlanBtn").addEventListener("click", () => {
+          // Refresh suggestions for today without changing completion toggles.
+          if (!state.day.dayKey) state.day.dayKey = todayKey();
+          if (rootWords && rootWords.length > 0) {
+            const count = randIntInclusive(3, 5);
+            const idxs = pickDistinctRandomInts(count, rootWords.length);
+            state.day.selectedRootWordIds = idxs.map((i) => rootWords[i].id);
+          } else {
+            state.day.selectedRootWordIds = [];
+          }
+          state.day.selectedAllahName =
+            ALLAH_NAMES_99[randIntInclusive(0, ALLAH_NAMES_99.length - 1)];
+          state.day.selectedAyahPlan = AYAH_PLANS[randIntInclusive(0, AYAH_PLANS.length - 1)];
+          save();
+          render();
+        });
+
+        $("#reflectionText").addEventListener("input", (e) => {
+          state.day.reflectionText = e.target.value;
+          save();
+        });
+
+        $("#openRootsLibraryBtn").addEventListener("click", () => openModal("roots"));
+        $("#openAllahLibraryBtn").addEventListener("click", () => openModal("allah"));
+        $("#openAllLibrariesBtn").addEventListener("click", () => openModal("roots"));
+
+        $("#closeModalBtn").addEventListener("click", closeModal);
+        $("#modalOverlay").addEventListener("click", (e) => {
+          if (e.target === $("#modalOverlay")) closeModal();
+        });
+
+        $("#tabRoots").addEventListener("click", () => {
+          setActiveTab("roots");
+          renderRootsLibrary(true);
+        });
+        $("#tabAllah").addEventListener("click", () => {
+          setActiveTab("allah");
+          renderAllahLibrary();
+        });
+
+        $("#rootSearchInput").addEventListener("input", () => renderRootsLibrary(true));
+        $("#rootsLoadMoreBtn").addEventListener("click", () => {
+          rootLibraryPage += 1;
+          renderRootsLibrary(false);
+        });
+
+        $("#modalSaveBtn").addEventListener("click", () => closeModal());
+        $("#rootsSelectedBadge").textContent = `${rootSelectedCount()}/5`;
+
+        // Service worker for offline + PWA installability.
+        if ("serviceWorker" in navigator && location.protocol !== "file:") {
+          window.addEventListener("load", async () => {
+            try {
+              await navigator.serviceWorker.register("/sw.js");
+            } catch (_) {
+              // Ignore registration failures (e.g., unsupported browser).
+            }
+          });
+        }
+
+        // Rotating motivation prompt (every 3 seconds).
+        if (motivationIntervalId) clearInterval(motivationIntervalId);
+        motivationIndex = 0;
+        $("#motivationText").textContent = prompts[motivationIndex];
+        motivationIntervalId = window.setInterval(() => {
+          $("#motivationBox").classList.add("is-swap");
+          motivationIndex = (motivationIndex + 1) % prompts.length;
+          window.setTimeout(() => {
+            $("#motivationText").textContent = prompts[motivationIndex];
+            $("#motivationBox").classList.remove("is-swap");
+          }, 120);
+        }, 3000);
+
+        // PWA install: show browser-provided prompt when available.
+        if ("onbeforeinstallprompt" in window) {
+          window.addEventListener("beforeinstallprompt", (e) => {
+            e.preventDefault();
+            deferredInstallPrompt = e;
+          });
+        }
+      }
+
+      init();
+    </script>
+  </body>
+</html>
+
