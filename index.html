@@ -443,6 +443,56 @@
         white-space: pre-wrap;
       }
 
+      /* English copy inside an RTL layout: correct line order and punctuation */
+      .detailsMeaning.ltrBlock,
+      .relatedMeaning.ltrBlock {
+        direction: ltr;
+        unicode-bidi: isolate;
+        text-align: left;
+      }
+
+      .detailsName.arabicLine {
+        direction: rtl;
+        unicode-bidi: isolate;
+        text-align: right;
+      }
+
+      .duaArabic {
+        direction: rtl;
+        unicode-bidi: isolate;
+        text-align: right;
+      }
+
+      .meaningVersionRow {
+        direction: ltr;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-bottom: 8px;
+        justify-content: flex-start;
+      }
+
+      .meaningVersionRow .verBtn {
+        padding: 5px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 700;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.88);
+        cursor: pointer;
+        transition: background 160ms ease, border-color 160ms ease;
+      }
+
+      .meaningVersionRow .verBtn:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .meaningVersionRow .verBtn.active {
+        border-color: rgba(99, 102, 241, 0.55);
+        background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(14, 165, 233, 0.18));
+      }
+
       .detailsSub {
         margin-top: 10px;
         font-size: 12px;
@@ -517,6 +567,9 @@
         font-size: 11.5px;
         line-height: 1.35;
         color: rgba(255, 255, 255, 0.82);
+        direction: rtl;
+        unicode-bidi: plaintext;
+        text-align: right;
       }
 
       .modalHeader {
@@ -699,10 +752,11 @@
             <div class="chipRow" id="rootWordsChipRow"></div>
             <div class="detailsBox" id="rootMainDetailsBox">
               <div class="detailsTitle">Selected Root</div>
-              <div class="detailsMeaning" id="rootMainDetailsEmpty">Select an Arabic root word.</div>
+              <div class="detailsMeaning ltrBlock" id="rootMainDetailsEmpty">Select an Arabic root word.</div>
               <div id="rootMainDetailsContent" style="display: none">
-                <div id="rootMainName" class="detailsName"></div>
-                <div id="rootMainMeaning" class="detailsMeaning"></div>
+                <div id="rootMainName" class="detailsName arabicLine"></div>
+                <div class="meaningVersionRow" id="rootMainMeaningVersions" style="display: none"></div>
+                <div id="rootMainMeaning" class="detailsMeaning ltrBlock" lang="en"></div>
               </div>
             </div>
             <div class="taskActions">
@@ -730,11 +784,17 @@
             <div class="chipRow" id="allahNameChipRow"></div>
             <div class="detailsBox" id="allahMainDetailsBox">
               <div class="detailsTitle">Selected Name</div>
-              <div class="detailsMeaning" id="allahMainDetailsEmpty">Select a Name of Allah.</div>
+              <div class="detailsMeaning ltrBlock" id="allahMainDetailsEmpty">Select a Name of Allah.</div>
               <div id="allahMainDetailsContent" style="display: none">
-                <div id="allahMainName" class="detailsName"></div>
-                <div id="allahMainMeaning" class="detailsMeaning"></div>
-                <div id="allahMainDua" class="detailsMeaning" style="margin-top: 8px"></div>
+                <div id="allahMainName" class="detailsName arabicLine"></div>
+                <div id="allahMainMeaning" class="detailsMeaning ltrBlock" lang="en"></div>
+                <div id="allahMainDua" class="detailsMeaning duaArabic" style="margin-top: 8px" lang="ar"></div>
+                <div
+                  id="allahMainDuaEn"
+                  class="detailsMeaning ltrBlock"
+                  style="margin-top: 6px; font-size: 12px; color: var(--muted)"
+                  lang="en"
+                ></div>
               </div>
             </div>
             <div class="taskActions">
@@ -833,14 +893,15 @@
 
             <div class="detailsBox" id="rootDetailsBox">
               <div class="detailsTitle">Root Details</div>
-              <div class="detailsMeaning" id="rootDetailsEmpty">
+              <div class="detailsMeaning ltrBlock" id="rootDetailsEmpty">
                 Select a root word to see the main meaning and all related words.
               </div>
               <div id="rootDetailsContent" style="display: none">
-                <div id="rootDetailsName" class="detailsName"></div>
-                <div id="rootDetailsMeaning" class="detailsMeaning"></div>
+                <div id="rootDetailsName" class="detailsName arabicLine"></div>
+                <div class="meaningVersionRow" id="rootDetailsMeaningVersions" style="display: none"></div>
+                <div id="rootDetailsMeaning" class="detailsMeaning ltrBlock" lang="en"></div>
 
-                <div class="detailsSub">Related words</div>
+                <div class="detailsSub ltrBlock">Related words</div>
                 <div id="rootRelatedWords" class="detailsWords"></div>
                 <div class="taskActions" style="margin-top: 10px; justify-content: center">
                   <button
@@ -853,7 +914,7 @@
                   </button>
                 </div>
 
-                <div class="detailsSub">Examples (from verses)</div>
+                <div class="detailsSub ltrBlock">Examples (from verses)</div>
                 <div id="rootExamples" class="detailsExamples"></div>
               </div>
             </div>
@@ -864,14 +925,20 @@
 
             <div class="detailsBox" id="allahDetailsBox">
               <div class="detailsTitle">Name Details</div>
-              <div class="detailsMeaning" id="allahDetailsEmpty">
+              <div class="detailsMeaning ltrBlock" id="allahDetailsEmpty">
                 Select a Name of Allah to see meaning + description.
               </div>
               <div id="allahDetailsContent" style="display: none">
-                <div id="allahDetailsName" class="detailsName"></div>
-                <div id="allahDetailsMeaning" class="detailsMeaning"></div>
-                <div id="allahDetailsDesc" class="detailsMeaning" style="margin-top: 10px"></div>
-                <div id="allahDetailsDua" class="detailsMeaning" style="margin-top: 10px"></div>
+                <div id="allahDetailsName" class="detailsName arabicLine"></div>
+                <div id="allahDetailsMeaning" class="detailsMeaning ltrBlock" lang="en"></div>
+                <div id="allahDetailsDesc" class="detailsMeaning ltrBlock" style="margin-top: 10px" lang="en"></div>
+                <div id="allahDetailsDua" class="detailsMeaning duaArabic" style="margin-top: 10px" lang="ar"></div>
+                <div
+                  id="allahDetailsDuaEn"
+                  class="detailsMeaning ltrBlock"
+                  style="margin-top: 6px; font-size: 12px; color: var(--muted)"
+                  lang="en"
+                ></div>
                 <div id="allahDetailsFound" class="detailsSub" style="margin-top: 10px"></div>
               </div>
             </div>
@@ -1103,6 +1170,67 @@
         return `اللهم يا ${nameObj.arabic} ارحمني واهدني وأصلح قلبي.`;
       }
 
+      function buildShortDuaEnglish(nameObj) {
+        if (!nameObj) return "";
+        const name = String(nameObj.latin || "").trim();
+        if (!name) return "";
+        return `O Allah, O ${name}, have mercy on me, guide me, and set right my heart.`;
+      }
+
+      function firstMeaningSentence(text) {
+        const s = String(text || "").trim();
+        if (!s) return "";
+        const m = s.match(/^([\s\S]+?[.!?])(?:\s+|$)/);
+        return m ? m[1].trim() : s;
+      }
+
+      /** Optional JSON field `meaningVersions` (string[]) selects multiple authored variants; else Full vs first-sentence Brief. */
+      function getRootMeaningVersions(root) {
+        if (!root) return { versions: [""], labelKind: "derived" };
+        if (Array.isArray(root.meaningVersions) && root.meaningVersions.length > 0) {
+          const v = root.meaningVersions.map((x) => String(x ?? "").trim()).filter(Boolean);
+          if (v.length >= 2) return { versions: v, labelKind: "dataset" };
+        }
+        const full = String(root.meaning || "").trim();
+        if (!full) return { versions: [""], labelKind: "derived" };
+        const brief = firstMeaningSentence(full);
+        if (brief.length && brief.length < full.length)
+          return { versions: [full, brief], labelKind: "derived" };
+        return { versions: [full], labelKind: "derived" };
+      }
+
+      function meaningVersionLabels(versions, labelKind) {
+        if (versions.length < 2) return [];
+        if (labelKind === "dataset") return versions.map((_, i) => `Version ${i + 1}`);
+        return ["Full meaning", "Brief"];
+      }
+
+      function renderRootMeaningVersionButtons(rowEl, rootId, versions, labelKind, onAfterPick) {
+        if (!rowEl) return;
+        rowEl.innerHTML = "";
+        if (versions.length < 2) {
+          rowEl.style.display = "none";
+          return;
+        }
+        rowEl.style.display = "flex";
+        let ix = rootMeaningVersionIxById.get(rootId);
+        if (ix == null) ix = 0;
+        ix = clamp(ix, 0, versions.length - 1);
+        rootMeaningVersionIxById.set(rootId, ix);
+        const labels = meaningVersionLabels(versions, labelKind);
+        labels.forEach((label, i) => {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "verBtn" + (i === ix ? " active" : "");
+          b.textContent = label;
+          b.addEventListener("click", () => {
+            rootMeaningVersionIxById.set(rootId, i);
+            onAfterPick();
+          });
+          rowEl.appendChild(b);
+        });
+      }
+
       function randIntInclusive(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       }
@@ -1147,6 +1275,8 @@
 
       let focusedRootId = null;
       let focusedAllah = null;
+      /** Selected meaning tab per root id (full vs brief, or dataset versions). */
+      let rootMeaningVersionIxById = new Map();
       let rootRelatedVisibleCount = 14;
       const ROOT_RELATED_INCREMENT = 14;
 
@@ -1610,6 +1740,7 @@
         const detailsContent = $("#rootDetailsContent");
         const nameEl = $("#rootDetailsName");
         const meaningEl = $("#rootDetailsMeaning");
+        const verRow = $("#rootDetailsMeaningVersions");
         const relatedEl = $("#rootRelatedWords");
         const examplesEl = $("#rootExamples");
         const showMoreBtn = $("#rootRelatedShowMoreBtn");
@@ -1628,8 +1759,17 @@
 
         detailsEmpty.style.display = "none";
         detailsContent.style.display = "";
+        const { versions, labelKind } = getRootMeaningVersions(root);
+        let ix = rootMeaningVersionIxById.get(rootId);
+        if (ix == null) ix = 0;
+        ix = clamp(ix, 0, Math.max(0, versions.length - 1));
+        rootMeaningVersionIxById.set(rootId, ix);
+        renderRootMeaningVersionButtons(verRow, rootId, versions, labelKind, () =>
+          renderRootDetails(rootId, false)
+        );
         nameEl.textContent = root.name;
-        meaningEl.textContent = root.meaning || "";
+        const picked = versions[ix] ?? "";
+        meaningEl.textContent = picked;
 
         const related = Array.isArray(root.relatedWords) ? root.relatedWords : [];
         const visibleCount = clamp(rootRelatedVisibleCount, 0, Math.max(0, related.length));
@@ -1656,8 +1796,9 @@
           wordLine.appendChild(countEl);
 
           const relMeaning = document.createElement("div");
-          relMeaning.className = "relatedMeaning";
-          relMeaning.textContent = truncateText(root.meaning, 70) || "";
+          relMeaning.className = "relatedMeaning ltrBlock";
+          relMeaning.lang = "en";
+          relMeaning.textContent = truncateText(picked, 70) || "";
 
           row.appendChild(wordLine);
           row.appendChild(relMeaning);
@@ -1694,6 +1835,7 @@
         const meaningEl = $("#allahDetailsMeaning");
         const descEl = $("#allahDetailsDesc");
         const duaEl = $("#allahDetailsDua");
+        const duaEnEl = $("#allahDetailsDuaEn");
         const foundEl = $("#allahDetailsFound");
 
         if (!nameObj) {
@@ -1709,6 +1851,7 @@
         meaningEl.textContent = nameObj.meaning || "";
         descEl.textContent = nameObj.desc || "";
         duaEl.textContent = buildShortDua(nameObj);
+        if (duaEnEl) duaEnEl.textContent = buildShortDuaEnglish(nameObj);
         foundEl.textContent = nameObj.found ? `Found in: ${nameObj.found}` : "";
       }
 
@@ -1717,6 +1860,7 @@
         const content = $("#rootMainDetailsContent");
         const nameEl = $("#rootMainName");
         const meaningEl = $("#rootMainMeaning");
+        const verRow = $("#rootMainMeaningVersions");
 
         if (!rootId || !rootWordById || !rootWordById.has(rootId)) {
           empty.style.display = "";
@@ -1726,8 +1870,14 @@
         const root = rootWordById.get(rootId);
         empty.style.display = "none";
         content.style.display = "";
+        const { versions, labelKind } = getRootMeaningVersions(root);
+        let ix = rootMeaningVersionIxById.get(rootId);
+        if (ix == null) ix = 0;
+        ix = clamp(ix, 0, Math.max(0, versions.length - 1));
+        rootMeaningVersionIxById.set(rootId, ix);
+        renderRootMeaningVersionButtons(verRow, rootId, versions, labelKind, () => render());
         nameEl.textContent = root.name;
-        meaningEl.textContent = root.meaning || "";
+        meaningEl.textContent = versions[ix] ?? "";
       }
 
       function renderMainAllahDetails(nameObj) {
@@ -1736,6 +1886,7 @@
         const nameEl = $("#allahMainName");
         const meaningEl = $("#allahMainMeaning");
         const duaEl = $("#allahMainDua");
+        const duaEnEl = $("#allahMainDuaEn");
 
         if (!nameObj) {
           empty.style.display = "";
@@ -1747,6 +1898,7 @@
         nameEl.textContent = nameObj.arabic;
         meaningEl.textContent = nameObj.meaning || "";
         duaEl.textContent = buildShortDua(nameObj);
+        if (duaEnEl) duaEnEl.textContent = buildShortDuaEnglish(nameObj);
       }
 
       async function loadRootWords() {
