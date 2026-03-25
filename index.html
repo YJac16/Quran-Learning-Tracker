@@ -821,14 +821,26 @@
               <div class="detailsMeaning ltrBlock" id="allahMainDetailsEmpty">Select a Name of Allah.</div>
               <div id="allahMainDetailsContent" style="display: none">
                 <div id="allahMainName" class="detailsName arabicLine"></div>
-                <div id="allahMainMeaning" class="detailsMeaning ltrBlock" lang="en"></div>
-                <div id="allahMainDua" class="detailsMeaning duaArabic" style="margin-top: 8px" lang="ar"></div>
-                <div
-                  id="allahMainDuaEn"
-                  class="detailsMeaning ltrBlock"
-                  style="margin-top: 6px; font-size: 12px; color: var(--muted)"
-                  lang="en"
-                ></div>
+                <div class="meaningVersionRow" id="allahMainViewToggle"></div>
+                <div id="allahMainMeaningBlock">
+                  <div id="allahMainMeaning" class="detailsMeaning ltrBlock" lang="en" dir="ltr"></div>
+                  <div
+                    id="allahMainDesc"
+                    class="detailsMeaning ltrBlock"
+                    style="margin-top: 8px; font-size: 12px; color: var(--muted)"
+                    lang="en"
+                    dir="ltr"
+                  ></div>
+                </div>
+                <div id="allahMainDuaBlock" style="display: none">
+                  <div id="allahMainDua" class="detailsMeaning duaArabic" style="margin-top: 8px" lang="ar"></div>
+                  <div
+                    id="allahMainDuaEn"
+                    class="detailsMeaning ltrBlock"
+                    style="margin-top: 6px; font-size: 12px; color: var(--muted)"
+                    lang="en"
+                  ></div>
+                </div>
               </div>
             </div>
             <div class="taskActions">
@@ -924,59 +936,10 @@
             <div class="taskActions" style="margin-top: 10px">
               <button class="pill miniBtn" type="button" id="rootsLoadMoreBtn">Load more</button>
             </div>
-
-            <div class="detailsBox" id="rootDetailsBox">
-              <div class="detailsTitle">Root Details</div>
-              <div class="detailsMeaning ltrBlock" id="rootDetailsEmpty">
-                Select a root word to see the main meaning and all related words.
-              </div>
-              <div id="rootDetailsContent" style="display: none">
-                <div id="rootDetailsName" class="detailsName arabicLine"></div>
-                <div class="meaningVersionRow" id="rootDetailsMeaningVersions" style="display: none"></div>
-                <div id="rootDetailsMeaning" class="detailsMeaning ltrBlock" lang="en" dir="ltr"></div>
-                <div id="rootDetailsVariations" class="rootVariationsWrap" style="display: none"></div>
-
-                <div class="detailsSub ltrBlock">Related words</div>
-                <div id="rootRelatedWords" class="detailsWords"></div>
-                <div class="taskActions" style="margin-top: 10px; justify-content: center">
-                  <button
-                    class="pill miniBtn"
-                    type="button"
-                    id="rootRelatedShowMoreBtn"
-                    style="display: none"
-                  >
-                    Show more
-                  </button>
-                </div>
-
-                <div class="detailsSub ltrBlock">Examples (from verses)</div>
-                <div id="rootExamples" class="detailsExamples"></div>
-              </div>
-            </div>
           </div>
 
           <div id="allahTab" style="display: none">
             <div class="list" id="allahList"></div>
-
-            <div class="detailsBox" id="allahDetailsBox">
-              <div class="detailsTitle">Name Details</div>
-              <div class="detailsMeaning ltrBlock" id="allahDetailsEmpty">
-                Select a Name of Allah to see meaning + description.
-              </div>
-              <div id="allahDetailsContent" style="display: none">
-                <div id="allahDetailsName" class="detailsName arabicLine"></div>
-                <div id="allahDetailsMeaning" class="detailsMeaning ltrBlock" lang="en"></div>
-                <div id="allahDetailsDesc" class="detailsMeaning ltrBlock" style="margin-top: 10px" lang="en"></div>
-                <div id="allahDetailsDua" class="detailsMeaning duaArabic" style="margin-top: 10px" lang="ar"></div>
-                <div
-                  id="allahDetailsDuaEn"
-                  class="detailsMeaning ltrBlock"
-                  style="margin-top: 6px; font-size: 12px; color: var(--muted)"
-                  lang="en"
-                ></div>
-                <div id="allahDetailsFound" class="detailsSub" style="margin-top: 10px"></div>
-              </div>
-            </div>
           </div>
 
           <div class="taskActions" style="margin-top: 12px; justify-content: center">
@@ -1498,11 +1461,11 @@
 
       let focusedRootId = null;
       let focusedAllah = null;
+      /** Main card 99 Names: false = English name meaning, true = dua. */
+      let allahMainViewIsDua = false;
+      let allahMainViewLastArabic = null;
       /** Selected meaning tab: index 0 Brief (derived) or Version 1 (dataset); kasrah block only on index ≥ 1 when two tabs. */
       let rootMeaningVersionIxById = new Map();
-      let rootRelatedVisibleCount = 14;
-      const ROOT_RELATED_INCREMENT = 14;
-
       let rootLibraryFiltered = [];
       let rootLibraryPage = 0;
       const ROOT_LIBRARY_PAGE_SIZE = 60;
@@ -1613,7 +1576,6 @@
           chip.innerHTML = `<strong>${name.arabic}</strong> · ${name.meaning || ""}`;
           chip.addEventListener("click", () => {
             focusedAllah = name;
-            renderAllahDetails(name);
             renderMainAllahDetails(name);
           });
           allahRow.appendChild(chip);
@@ -1773,11 +1735,9 @@
           renderRootsLibrary(true);
           const ids = state.day.selectedRootWordIds || [];
           focusedRootId = ids.length ? ids[ids.length - 1] : null;
-          renderRootDetails(focusedRootId, true);
         } else {
           renderAllahLibrary();
           focusedAllah = state.day.selectedAllahName || null;
-          renderAllahDetails(focusedAllah);
         }
       }
 
@@ -1830,9 +1790,8 @@
         // Update chips immediately.
         render();
 
-        // Show details for the last interacted root.
         focusedRootId = rootId;
-        renderRootDetails(rootId, true);
+        render();
       }
 
       function showLibraryToast(message) {
@@ -1893,7 +1852,7 @@
 
           left.addEventListener("click", () => {
             focusedRootId = item.id;
-            renderRootDetails(item.id, true);
+            render();
           });
 
           el.appendChild(left);
@@ -1943,152 +1902,13 @@
             renderAllahLibrary();
 
             focusedAllah = name;
-            renderAllahDetails(name);
             renderMainAllahDetails(name);
-          });
-
-          left.addEventListener("click", () => {
-            focusedAllah = name;
-            renderAllahDetails(name);
           });
 
           item.appendChild(left);
           item.appendChild(btn);
           list.appendChild(item);
         });
-      }
-
-      function renderRootDetails(rootId, resetVisible = true) {
-        const detailsEmpty = $("#rootDetailsEmpty");
-        const detailsContent = $("#rootDetailsContent");
-        const nameEl = $("#rootDetailsName");
-        const meaningEl = $("#rootDetailsMeaning");
-        const verRow = $("#rootDetailsMeaningVersions");
-        const relatedEl = $("#rootRelatedWords");
-        const examplesEl = $("#rootExamples");
-        const showMoreBtn = $("#rootRelatedShowMoreBtn");
-
-        if (!rootId || !rootWordById || !rootWordById.has(rootId)) {
-          detailsEmpty.style.display = "";
-          detailsContent.style.display = "none";
-          relatedEl.innerHTML = "";
-          examplesEl.innerHTML = "";
-          showMoreBtn.style.display = "none";
-          const varDet = $("#rootDetailsVariations");
-          if (varDet) {
-            varDet.style.display = "none";
-            varDet.innerHTML = "";
-          }
-          return;
-        }
-
-        const root = rootWordById.get(rootId);
-        if (resetVisible) rootRelatedVisibleCount = 14;
-
-        detailsEmpty.style.display = "none";
-        detailsContent.style.display = "";
-        const { versions, labelKind } = getRootMeaningVersions(root);
-        let ix = rootMeaningVersionIxById.get(rootId);
-        if (ix == null) ix = 0;
-        ix = clamp(ix, 0, Math.max(0, versions.length - 1));
-        rootMeaningVersionIxById.set(rootId, ix);
-        renderRootMeaningVersionButtons(verRow, rootId, versions, labelKind, () =>
-          renderRootDetails(rootId, false)
-        );
-        nameEl.textContent = root.name;
-        const picked = versions[ix] ?? "";
-        meaningEl.dir = "ltr";
-        meaningEl.lang = "en";
-        meaningEl.textContent = cleanEnglishRootMeaning(picked);
-        renderRootKasraVariations(
-          $("#rootDetailsVariations"),
-          root,
-          showRootKasraVariations(labelKind, versions, ix)
-        );
-
-        const related = Array.isArray(root.relatedWords) ? root.relatedWords : [];
-        const visibleCount = clamp(rootRelatedVisibleCount, 0, Math.max(0, related.length));
-        const slice = related.slice(0, visibleCount);
-
-        relatedEl.innerHTML = "";
-        slice.forEach((w) => {
-          const row = document.createElement("div");
-          row.className = "relatedRow";
-
-          const wordLine = document.createElement("div");
-          wordLine.className = "relatedWordLine";
-
-          const wordEl = document.createElement("div");
-          wordEl.className = "relatedWord";
-          wordEl.textContent = w.word;
-
-          const countEl = document.createElement("div");
-          countEl.className = "relatedCount";
-          const types = Array.isArray(w.types) && w.types.length ? `· ${w.types[0]}` : "";
-          countEl.textContent = `${w.count ?? ""} ${types}`.trim();
-
-          wordLine.appendChild(wordEl);
-          wordLine.appendChild(countEl);
-
-          const relMeaning = document.createElement("div");
-          relMeaning.className = "relatedMeaning ltrBlock";
-          relMeaning.lang = "en";
-          relMeaning.dir = "ltr";
-          relMeaning.textContent = truncateText(cleanEnglishRootMeaning(picked), 70);
-
-          row.appendChild(wordLine);
-          row.appendChild(relMeaning);
-          relatedEl.appendChild(row);
-        });
-
-        showMoreBtn.style.display = related.length > visibleCount ? "" : "none";
-
-        // Examples
-        examplesEl.innerHTML = "";
-        const examples = Array.isArray(root.examples) ? root.examples : [];
-        examples.slice(0, 3).forEach((ex) => {
-          const item = document.createElement("div");
-          item.className = "exampleItem";
-
-          const verse = document.createElement("div");
-          verse.className = "exampleVerse";
-          verse.textContent = ex.verseKey || "";
-
-          const snippet = document.createElement("div");
-          snippet.className = "exampleSnippet";
-          snippet.textContent = ex.snippet || "";
-
-          item.appendChild(verse);
-          item.appendChild(snippet);
-          examplesEl.appendChild(item);
-        });
-      }
-
-      function renderAllahDetails(nameObj) {
-        const detailsEmpty = $("#allahDetailsEmpty");
-        const detailsContent = $("#allahDetailsContent");
-        const nameEl = $("#allahDetailsName");
-        const meaningEl = $("#allahDetailsMeaning");
-        const descEl = $("#allahDetailsDesc");
-        const duaEl = $("#allahDetailsDua");
-        const duaEnEl = $("#allahDetailsDuaEn");
-        const foundEl = $("#allahDetailsFound");
-
-        if (!nameObj) {
-          detailsEmpty.style.display = "";
-          detailsContent.style.display = "none";
-          return;
-        }
-
-        detailsEmpty.style.display = "none";
-        detailsContent.style.display = "";
-
-        nameEl.textContent = `${nameObj.arabic} · ${nameObj.latin}`;
-        meaningEl.textContent = nameObj.meaning || "";
-        descEl.textContent = nameObj.desc || "";
-        duaEl.textContent = buildShortDua(nameObj);
-        if (duaEnEl) duaEnEl.textContent = buildShortDuaEnglish(nameObj);
-        foundEl.textContent = nameObj.found ? `Found in: ${nameObj.found}` : "";
       }
 
       function renderMainRootDetails(rootId) {
@@ -2129,7 +1949,11 @@
         const empty = $("#allahMainDetailsEmpty");
         const content = $("#allahMainDetailsContent");
         const nameEl = $("#allahMainName");
+        const toggleRow = $("#allahMainViewToggle");
+        const meaningBlock = $("#allahMainMeaningBlock");
+        const duaBlock = $("#allahMainDuaBlock");
         const meaningEl = $("#allahMainMeaning");
+        const descEl = $("#allahMainDesc");
         const duaEl = $("#allahMainDua");
         const duaEnEl = $("#allahMainDuaEn");
 
@@ -2140,9 +1964,43 @@
         }
         empty.style.display = "none";
         content.style.display = "";
+        if (nameObj.arabic !== allahMainViewLastArabic) {
+          allahMainViewIsDua = false;
+          allahMainViewLastArabic = nameObj.arabic;
+        }
         nameEl.textContent = nameObj.arabic;
-        meaningEl.textContent = nameObj.meaning || "";
-        duaEl.textContent = buildShortDua(nameObj);
+
+        if (toggleRow) {
+          toggleRow.innerHTML = "";
+          toggleRow.style.display = "flex";
+          ["Name meaning", "Dua"].forEach((label, i) => {
+            const isDuaTab = i === 1;
+            const active = allahMainViewIsDua === isDuaTab;
+            const b = document.createElement("button");
+            b.type = "button";
+            b.className = "verBtn" + (active ? " active" : "");
+            b.textContent = label;
+            b.addEventListener("click", () => {
+              allahMainViewIsDua = isDuaTab;
+              renderMainAllahDetails(nameObj);
+            });
+            toggleRow.appendChild(b);
+          });
+        }
+
+        const showMeaning = !allahMainViewIsDua;
+        if (meaningBlock) meaningBlock.style.display = showMeaning ? "" : "none";
+        if (duaBlock) duaBlock.style.display = showMeaning ? "none" : "";
+
+        if (meaningEl) {
+          meaningEl.textContent = nameObj.meaning || "No English meaning in dataset.";
+        }
+        if (descEl) {
+          const d = nameObj.desc || "";
+          descEl.textContent = d;
+          descEl.style.display = d.trim() ? "" : "none";
+        }
+        if (duaEl) duaEl.textContent = buildShortDua(nameObj);
         if (duaEnEl) duaEnEl.textContent = buildShortDuaEnglish(nameObj);
       }
 
@@ -2264,25 +2122,17 @@
           renderRootsLibrary(true);
           const ids = state.day.selectedRootWordIds || [];
           focusedRootId = ids.length ? ids[ids.length - 1] : null;
-          renderRootDetails(focusedRootId, true);
         });
         $("#tabAllah").addEventListener("click", () => {
           setActiveTab("allah");
           renderAllahLibrary();
           focusedAllah = state.day.selectedAllahName || null;
-          renderAllahDetails(focusedAllah);
         });
 
         $("#rootSearchInput").addEventListener("input", () => renderRootsLibrary(true));
         $("#rootsLoadMoreBtn").addEventListener("click", () => {
           rootLibraryPage += 1;
           renderRootsLibrary(false);
-        });
-
-        $("#rootRelatedShowMoreBtn").addEventListener("click", () => {
-          if (!focusedRootId) return;
-          rootRelatedVisibleCount += ROOT_RELATED_INCREMENT;
-          renderRootDetails(focusedRootId, false);
         });
 
         $("#modalSaveBtn").addEventListener("click", () => closeModal());
