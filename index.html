@@ -493,6 +493,11 @@
         background: linear-gradient(135deg, rgba(99, 102, 241, 0.35), rgba(14, 165, 233, 0.18));
       }
 
+      .rootMeaningArabic {
+        unicode-bidi: isolate;
+        font-weight: 800;
+      }
+
       .detailsSub {
         margin-top: 10px;
         font-size: 12px;
@@ -1199,6 +1204,33 @@
         return { versions: [full], labelKind: "derived" };
       }
 
+      /**
+       * Arabic root first, English in parentheses. Uses an isolated RTL span for the letters
+       * so order stays correct inside .ltrBlock.
+       */
+      function fillRootMeaningElement(el, root, englishMeaning) {
+        if (!el) return;
+        const ar = String(root?.name ?? "").trim();
+        const en = String(englishMeaning ?? "").trim();
+        el.textContent = "";
+        if (!ar && !en) return;
+        if (!en) {
+          el.textContent = ar;
+          return;
+        }
+        if (!ar) {
+          el.textContent = `(${en})`;
+          return;
+        }
+        const arSpan = document.createElement("span");
+        arSpan.className = "rootMeaningArabic";
+        arSpan.dir = "rtl";
+        arSpan.lang = "ar";
+        arSpan.textContent = ar;
+        el.appendChild(arSpan);
+        el.appendChild(document.createTextNode(` (${en})`));
+      }
+
       function meaningVersionLabels(versions, labelKind) {
         if (versions.length < 2) return [];
         if (labelKind === "dataset") return versions.map((_, i) => `Version ${i + 1}`);
@@ -1769,7 +1801,7 @@
         );
         nameEl.textContent = root.name;
         const picked = versions[ix] ?? "";
-        meaningEl.textContent = picked;
+        fillRootMeaningElement(meaningEl, root, picked);
 
         const related = Array.isArray(root.relatedWords) ? root.relatedWords : [];
         const visibleCount = clamp(rootRelatedVisibleCount, 0, Math.max(0, related.length));
@@ -1798,7 +1830,7 @@
           const relMeaning = document.createElement("div");
           relMeaning.className = "relatedMeaning ltrBlock";
           relMeaning.lang = "en";
-          relMeaning.textContent = truncateText(picked, 70) || "";
+          fillRootMeaningElement(relMeaning, root, truncateText(picked, 70));
 
           row.appendChild(wordLine);
           row.appendChild(relMeaning);
@@ -1877,7 +1909,7 @@
         rootMeaningVersionIxById.set(rootId, ix);
         renderRootMeaningVersionButtons(verRow, rootId, versions, labelKind, () => render());
         nameEl.textContent = root.name;
-        meaningEl.textContent = versions[ix] ?? "";
+        fillRootMeaningElement(meaningEl, root, versions[ix] ?? "");
       }
 
       function renderMainAllahDetails(nameObj) {
