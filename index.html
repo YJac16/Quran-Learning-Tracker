@@ -1230,7 +1230,7 @@
         if (!full) return { versions: [""], labelKind: "derived" };
         const brief = firstMeaningSentence(full);
         if (brief.length && brief.length < full.length)
-          return { versions: [full, brief], labelKind: "derived" };
+          return { versions: [brief, full], labelKind: "derived" };
         return { versions: [full], labelKind: "derived" };
       }
 
@@ -1267,12 +1267,83 @@
         return s || "";
       }
 
-      function variationBracketGloss(root, w) {
-        const sense = extractBracketSense(root);
+      /** Short English “gist” from the gloss for use inside morphology lines. */
+      function summarizeEnglishVerbRoot(root) {
+        const s = extractBracketSense(root);
+        if (!s) return "";
+        const head = s.split(",")[0].trim();
+        return (head || s).replace(/\.$/, "");
+      }
+
+      const AR_TASHKEEL = /[\u0610-\u061A\u064B-\u065F\u0670]/g;
+
+      function arabicWithoutTashkeel(s) {
+        return String(s).replace(AR_TASHKEEL, "").replace(/\u0640/g, "");
+      }
+
+      /**
+       * Distinct EN gloss per pointed word (dataset may set w.meaning or w.en).
+       * Otherwise heuristic morphology from the Quranic spelling.
+       */
+      function pointedFormEnglishGloss(root, w) {
+        if (w && typeof w.meaning === "string" && w.meaning.trim()) return w.meaning.trim();
+        if (w && typeof w.en === "string" && w.en.trim()) return w.en.trim();
+        const word = String(w?.word || "");
+        const gist = summarizeEnglishVerbRoot(root) || "this root’s sense in context";
+        const raw = arabicWithoutTashkeel(word);
         const isLemma = Array.isArray(w.types) && w.types.includes("lemma");
-        const tag = isLemma ? "lemma" : "inflected form";
-        if (sense) return `${sense} · ${tag}`;
-        return tag;
+        const hasKasratan = word.includes("\u064D");
+
+        if (/^يؤت/.test(raw) || /^يوأت/.test(raw)) {
+          return `Passive imperfect (yu‑…): “is given / is granted” — ${gist}`;
+        }
+        if (/^نؤت/.test(raw)) {
+          return `Passive imperfect, first person plural: “we are given” — ${gist}`;
+        }
+        if (/^تؤت/.test(raw)) {
+          return `Passive imperfect with تَ (“you are given” or “she is given”) — ${gist}`;
+        }
+        if (/^يأت/.test(raw)) {
+          return `Active imperfect (ya‑…): “he/it comes or arrives” — ${gist}`;
+        }
+        if (/^تأت/.test(raw)) {
+          return `Imperfect with تَ prefix: “you (m.sg.) come” or “she/they come” — ${gist}`;
+        }
+        if (/^نأت/.test(raw)) {
+          return `Imperfect, first person plural: “we come / we arrive” — ${gist}`;
+        }
+        if (/^أوت/.test(raw)) {
+          return `Passive perfect (’ūti…): “was given / was granted” — ${gist}`;
+        }
+        if (/^آتي$/.test(raw)) {
+          return `Active participle on Ātiyy: “coming” / “one who comes” — ${gist}`;
+        }
+        if (/^ءاتي$/.test(raw)) {
+          if (word.includes("ي\u0650") || word.includes("ى\u0650")) {
+            return `Active participle: “coming” / “who brings” — ${gist}`;
+          }
+          return `Energetic ءَاتَيْ-style ending — ${gist}`;
+        }
+        if (/^أتى|^آتى|^اتى/.test(raw)) {
+          return `Perfect tense stem: “came / arrived / brought” — ${gist}`;
+        }
+        if (/^ءات/.test(raw)) {
+          return `Form IV–style ءَاتـ (“give/bring to”) in this root’s sense — ${gist}`;
+        }
+        if (/^استأت|^استأتى/.test(raw)) {
+          return `Form X pattern (seeking / requesting) if read as Form X here — ${gist}`;
+        }
+        if (hasKasratan) {
+          return `Tanwīn kasrah (adverbial / grammatical –an coloring in context) — ${gist}`;
+        }
+        if (/^ماي/.test(raw)) {
+          return `Possible maṣdar- or ma- nominal pattern in context — ${gist}`;
+        }
+        if (isLemma && raw.length <= 5) {
+          return `Lemma (dictionary citation form) — ${gist}`;
+        }
+
+        return `Quranic pointed form${isLemma ? " · lemma" : ""} — ${gist}`;
       }
 
       function renderRootKasraVariations(container, root, visible) {
@@ -1320,7 +1391,7 @@
           gloss.className = "rootVariationGloss ltrBlock";
           gloss.dir = "ltr";
           gloss.lang = "en";
-          gloss.textContent = ` (${variationBracketGloss(root, w)})`;
+          gloss.textContent = ` (${pointedFormEnglishGloss(root, w)})`;
 
           row.appendChild(ar);
           row.appendChild(gloss);
@@ -1328,14 +1399,10 @@
         });
       }
 
-      function isDerivedBriefMeaning(labelKind, versions, ix) {
-        return labelKind === "derived" && versions.length > 1 && ix === 1;
-      }
-
       function meaningVersionLabels(versions, labelKind) {
         if (versions.length < 2) return [];
         if (labelKind === "dataset") return versions.map((_, i) => `Version ${i + 1}`);
-        return ["Full meaning", "Brief"];
+        return ["Brief", "Full meaning"];
       }
 
       function renderRootMeaningVersionButtons(rowEl, rootId, versions, labelKind, onAfterPick) {
@@ -1408,7 +1475,7 @@
 
       let focusedRootId = null;
       let focusedAllah = null;
-      /** Selected meaning tab per root id (full vs brief, or dataset versions). */
+      /** Selected meaning tab per root id (Brief first when derived, or dataset versions). */
       let rootMeaningVersionIxById = new Map();
       let rootRelatedVisibleCount = 14;
       const ROOT_RELATED_INCREMENT = 14;
@@ -1907,11 +1974,10 @@
         );
         nameEl.textContent = root.name;
         const picked = versions[ix] ?? "";
-        const brief = isDerivedBriefMeaning(labelKind, versions, ix);
         meaningEl.dir = "ltr";
         meaningEl.lang = "en";
         meaningEl.textContent = cleanEnglishRootMeaning(picked);
-        renderRootKasraVariations($("#rootDetailsVariations"), root, !brief);
+        renderRootKasraVariations($("#rootDetailsVariations"), root, true);
 
         const related = Array.isArray(root.relatedWords) ? root.relatedWords : [];
         const visibleCount = clamp(rootRelatedVisibleCount, 0, Math.max(0, related.length));
@@ -2026,11 +2092,10 @@
         renderRootMeaningVersionButtons(verRow, rootId, versions, labelKind, () => render());
         nameEl.textContent = root.name;
         const picked = versions[ix] ?? "";
-        const brief = isDerivedBriefMeaning(labelKind, versions, ix);
         meaningEl.dir = "ltr";
         meaningEl.lang = "en";
         meaningEl.textContent = cleanEnglishRootMeaning(picked);
-        renderRootKasraVariations(varWrap, root, !brief);
+        renderRootKasraVariations(varWrap, root, true);
       }
 
       function renderMainAllahDetails(nameObj) {
