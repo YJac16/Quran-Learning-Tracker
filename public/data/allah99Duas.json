@@ -1,0 +1,501 @@
+{
+ "code": 200,
+ "status": "OK",
+ "data": [
+  {
+   "number": 1,
+   "duaAr": "اللهم يا الرَّحْمَنُ، احفظني برحمتك من هواجس الذنب وضيق الصدر.",
+   "duaEn": "O Allah, You are Ar Rahmaan — The Beneficent. Grant me relief that only Your mercy can fashion, not my own plans."
+  },
+  {
+   "number": 2,
+   "duaAr": "اللهم يا الرَّحِيمُ، امسح عني ما أفسدته يداي برحمتك التي كتبت على نفسك.",
+   "duaEn": "O Allah, You are Ar Raheem — The Merciful. Let the meaning of this name settle in my chest until I am gentler with others."
+  },
+  {
+   "number": 3,
+   "duaAr": "اللهم يا الْمَلِكُ، انصرني على عدّي بغير افتخار إن غلبت.",
+   "duaEn": "O Allah, You are Al Malik — The King / Eternal Lord. Let justice from You protect me when human strength would fail."
+  },
+  {
+   "number": 4,
+   "duaAr": "اللهم يا الْقُدُّوسُ، باعد بيني وبين الشبهات فإني أشهد أنك القدّوس.",
+   "duaEn": "O Allah, You are Al Quddus — The Purest. Lift me from hidden hypocrisy; You are transcendent above every flaw I hide."
+  },
+  {
+   "number": 5,
+   "duaAr": "اللهم يا السَّلاَمُ، لا تكلني إلى سواك في طلب الرزق فأذل.",
+   "duaEn": "O Allah, You are As Salaam — The Source of Peace. Let my table remind me of stewardship, not entitlement."
+  },
+  {
+   "number": 6,
+   "duaAr": "اللهم يا الْمُؤْمِنُ، اعصمني من الفتن ما ظهر منها وما بطن.",
+   "duaEn": "O Allah, You are Al Mu'min — The inspirer of faith. Let family arguments cool when this name is remembered between us."
+  },
+  {
+   "number": 7,
+   "duaAr": "اللهم يا الْمُهَيْمِنُ، اختم لي بخاتمة صالحة لا مردّ لها.",
+   "duaEn": "O Allah, You are Al Muhaymin — The Guardian. Seal my day with sincerity I can admit to You at night."
+  },
+  {
+   "number": 8,
+   "duaAr": "اللهم يا الْعَزِيزُ، قوّني على شهوات نفسي فأنت القوّي المتين.",
+   "duaEn": "O Allah, You are Al Azeez — The Precious / The Most Mighty. When I feel powerless, remind me that no barrier survives Your will."
+  },
+  {
+   "number": 9,
+   "duaAr": "اللهم يا الْجَبَّارُ، أعزّني بطاعتك ولا تذلّني بمعصيتك.",
+   "duaEn": "O Allah, You are Al Jabbaar — The Compeller. Let Your power lift me without inflating my ego; keep me humble under Your might."
+  },
+  {
+   "number": 10,
+   "duaAr": "اللهم يا الْمُتَكَبِّرُ، انصر الحقّ فيّ على الباطل حتى تطمئنّ نفسي.",
+   "duaEn": "O Allah, You are Al Mutakabbir — The Greatest. Do not let me boast in strength; let awe of You be my dignity."
+  },
+  {
+   "number": 11,
+   "duaAr": "اللهم يا الْخَالِقُ، اصطنع لي فرجًا من ضيق لا أستطيع وصفه.",
+   "duaEn": "O Allah, You are Al Khaaliq — The Creator. Teach me a dua today I will still mean tomorrow."
+  },
+  {
+   "number": 12,
+   "duaAr": "اللهم يا الْبَارِئُ، اجعلني من عبادك الذين لا يلوثهم الزيف.",
+   "duaEn": "O Allah, You are Al Baari — The Maker of Order. When I am tempted to justify sin, let awe of Your perfection stop me."
+  },
+  {
+   "number": 13,
+   "duaAr": "اللهم يا الْمُصَوِّرُ، أغثني إن ضاق الرزق فأنت خير الرازقين.",
+   "duaEn": "O Allah, You are Al Musawwir — The Shaper of Beauty. Save me from comparing my portion to anyone else’s scroll."
+  },
+  {
+   "number": 14,
+   "duaAr": "اللهم يا الْغَفَّارُ، ألِف بيني وبين طاعتك برحمتك يا أرحم الراحمين.",
+   "duaEn": "O Allah, You are Al Ghaffaar — The Forgiving. Do not leave me to myself; rescue me by mercy I could never deserve."
+  },
+  {
+   "number": 15,
+   "duaAr": "اللهم يا الْقَهَّارُ، اجعل عزّتي في خوفك وخشيتك لا في مظاهر العاجل.",
+   "duaEn": "O Allah, You are Al Qahhaar — The Subduer. Save me from misusing any strength You lend me over myself or others."
+  },
+  {
+   "number": 16,
+   "duaAr": "اللهم يا الْوَهَّابُ، لا تجعل الدنيا أكبر همّي وقد كفيتني.",
+   "duaEn": "O Allah, You are Al Wahhaab — The Giver of All. When I worry about tomorrow, anchor me in Your attribute of giving."
+  },
+  {
+   "number": 17,
+   "duaAr": "اللهم يا الرَّزَّاقُ، ارزقني قناعةً تعادل كثرة العالم.",
+   "duaEn": "O Allah, You are Ar Razzaaq — The Sustainer. When doors narrow, open patience in me until lawful relief arrives."
+  },
+  {
+   "number": 18,
+   "duaAr": "اللهم يا الْفَتَّاحُ، أنت عليم فاكشف لي سرّ التوبة النصوح قبل فوات الأوان.",
+   "duaEn": "O Allah, You are Al Fattaah — The Opener. Help me see my faults before You see them on the Last Day."
+  },
+  {
+   "number": 19,
+   "duaAr": "اللهم يا اَلْعَلِيْمُ، احفظني من العلم الذي لا يرفع صاحبه عندك.",
+   "duaEn": "O Allah, You are Al 'Aleem — The Knower of all. Let me remember that Your knowledge embraces my future; ease my anxiety."
+  },
+  {
+   "number": 20,
+   "duaAr": "اللهم يا الْقَابِضُ، اكشف لي عن طريقك وأنت أعلم بما في السماوات والأرض.",
+   "duaEn": "O Allah, You are Al Qaabid — The Constrictor. Let the light of this name clear my doubts without making me arrogant."
+  },
+  {
+   "number": 21,
+   "duaAr": "اللهم يا الْبَاسِطُ، اكشف لي عن طريقك وأنت أعلم بما في السماوات والأرض.",
+   "duaEn": "O Allah, You are Al Baasit — The Reliever. Let the light of this name clear my doubts without making me arrogant."
+  },
+  {
+   "number": 22,
+   "duaAr": "اللهم يا الْخَافِضُ، قرّبني إليك كلما دعوتك بهذا الاسم.",
+   "duaEn": "O Allah, You are Al Khaafid — The Abaser. Draw me nearer each time I call You by it sincerely."
+  },
+  {
+   "number": 23,
+   "duaAr": "اللهم يا الرَّافِعُ، ائتني مواساة إذا وحشتني الطريق.",
+   "duaEn": "O Allah, You are Ar Raafi' — The Exalter. Bind my plans to adab with You; let haste not ruin them."
+  },
+  {
+   "number": 24,
+   "duaAr": "اللهم يا الْمُعِزُّ، اكفني بفضلك عن سؤال أهل الباطل.",
+   "duaEn": "O Allah, You are Al Mu'iz — The Bestower of Honour. Let what You grant me today fund integrity, not compromise."
+  },
+  {
+   "number": 25,
+   "duaAr": "اللهم يا المُذِلُّ، ثبّتني على حبّك حتى ألقاك وأنت عنّي راضٍ.",
+   "duaEn": "O Allah, You are Al Mudhil — The Humiliator. Plant awe and love together so I neither freeze nor forget myself before You."
+  },
+  {
+   "number": 26,
+   "duaAr": "اللهم يا السَّمِيعُ، ائتني علماً نافعاً وعملاً متّصلاً به يا أرحم الراحمين.",
+   "duaEn": "O Allah, You are As Samee' — The Hearer of all. Let my study of Your signs lead to humility, not argument."
+  },
+  {
+   "number": 27,
+   "duaAr": "اللهم يا الْبَصِيرُ، احفظني من العلم الذي لا يرفع صاحبه عندك.",
+   "duaEn": "O Allah, You are Al Baseer — The Seer of all. Let me remember that Your knowledge embraces my future; ease my anxiety."
+  },
+  {
+   "number": 28,
+   "duaAr": "اللهم يا الْحَكَمُ، احسم لي بالحقّ وأنت أقدر من كل ظالم.",
+   "duaEn": "O Allah, You are Al Hakam — The Judge. Break my reliance on tyranny of habit; give me strength only You can grant."
+  },
+  {
+   "number": 29,
+   "duaAr": "اللهم يا الْعَدْلُ، ائتني ثباتًا على الصدق معك ومع خلقك.",
+   "duaEn": "O Allah, You are Al 'Adl — The Just. Let the straight path feel sweeter than shortcuts that twist the truth."
+  },
+  {
+   "number": 30,
+   "duaAr": "اللهم يا اللَّطِيفُ، امسح عني ما أفسدته يداي برحمتك التي كتبت على نفسك.",
+   "duaEn": "O Allah, You are Al Lateef — The Subtle One. Let the meaning of this name settle in my chest until I am gentler with others."
+  },
+  {
+   "number": 31,
+   "duaAr": "اللهم يا الْخَبِيرُ، وفّقني لما تحب وتحبني فيه وأنت خبير بضميري.",
+   "duaEn": "O Allah, You are Al Khabeer — The All Aware. Guide my choices today with the awareness that nothing is hidden from You."
+  },
+  {
+   "number": 32,
+   "duaAr": "اللهم يا الْحَلِيمُ، قرّ عيني بلطفك ورحمتك حين أضيق.",
+   "duaEn": "O Allah, You are Al Haleem — The Forebearing. Make my end better than my beginning, by mercy that effaces what I regret."
+  },
+  {
+   "number": 33,
+   "duaAr": "اللهم يا الْعَظِيمُ، زكّ نيتي حتى أخلص لك وأنت المطلع على السرائر.",
+   "duaEn": "O Allah, You are Al 'Azeem — The Maginificent. Let repentance scrub what shame tries to cover up before You."
+  },
+  {
+   "number": 34,
+   "duaAr": "اللهم يا الْغَفُورُ، لا تُؤاخذني بجرائري وكن لي برحمتك خير راحم.",
+   "duaEn": "O Allah, You are Al Ghafoor — The Great Forgiver. When I fear my record, remind me that Your mercy outruns my forgetfulness."
+  },
+  {
+   "number": 35,
+   "duaAr": "اللهم يا الشَّكُورُ، قرّبني من الصادقين في القول والعمل.",
+   "duaEn": "O Allah, You are Ash Shakoor — The Rewarder of Thankfulness. In pain, let this name be balm—not a slogan, but a lifeline."
+  },
+  {
+   "number": 36,
+   "duaAr": "اللهم يا الْعَلِيُّ، ألبسني بهاء الطاعة كما تليق باسمك الطاهر.",
+   "duaEn": "O Allah, You are Al 'Aliyy — The Highest. Guard my senses; let nothing impure attach itself to a heart that invokes You."
+  },
+  {
+   "number": 37,
+   "duaAr": "اللهم يا الْكَبِيرُ، اكشف لي عن طريقك وأنت أعلم بما في السماوات والأرض.",
+   "duaEn": "O Allah, You are Al Kabeer — The Greatest. Let the light of this name clear my doubts without making me arrogant."
+  },
+  {
+   "number": 38,
+   "duaAr": "اللهم يا الْحَفِيظُ، اعصمني من الفتن ما ظهر منها وما بطن.",
+   "duaEn": "O Allah, You are Al Hafeez — The Preserver. Let family arguments cool when this name is remembered between us."
+  },
+  {
+   "number": 39,
+   "duaAr": "اللهم يا المُقيِت، لا تخذلني حين أطلب الحقّ ويضيق بي الطريق.",
+   "duaEn": "O Allah, You are Al Muqeet — The Sustainer. Save me from self-pity that pretends to be justice."
+  },
+  {
+   "number": 40,
+   "duaAr": "اللهم يا الْحسِيبُ، لا تخذلني بعد أن علّمتني أنّك سميع قريب.",
+   "duaEn": "O Allah, You are Al Haseeb — The Reckoner, The Sufficient. When I feel ordinary, remind me this name is not ordinary."
+  },
+  {
+   "number": 41,
+   "duaAr": "اللهم يا الْجَلِيلُ، ائتني خلقًا جميلًا يشهد لقلبٍ نقيّ بإذنك.",
+   "duaEn": "O Allah, You are Al Jaleel — The Majestic. Clothe me in modesty of character that befits pure devotion."
+  },
+  {
+   "number": 42,
+   "duaAr": "اللهم يا الْكَرِيمُ، ائتني صبرًا حسنًا على أقدارٍ لا أستوعبها.",
+   "duaEn": "O Allah, You are Al Kareem — The Most Generous, The Most Esteemed. Bless the hidden hours of worship tied to remembering this name."
+  },
+  {
+   "number": 43,
+   "duaAr": "اللهم يا الرَّقِيبُ، احفظ لي أمري بين الكرم والعدل.",
+   "duaEn": "O Allah, You are Ar Raqeeb — The Watchful One. Let my sleep be peaceful because I entrusted the unseen to You."
+  },
+  {
+   "number": 44,
+   "duaAr": "اللهم يا الْمُجِيبُ، اجعل اسمك لي نورًا في ظلمات الحيرة.",
+   "duaEn": "O Allah, You are Al Mujeeb  — The Responder to Prayer. Let this name be a lantern in my confusion; do not leave me groping alone."
+  },
+  {
+   "number": 45,
+   "duaAr": "اللهم يا الْوَاسِعُ، ارزقني بصيرة في ديني ولا تهتك بصيرتي بالمعاصي.",
+   "duaEn": "O Allah, You are Al Waasi' — The All-Encompassing, the Boundless. Grant me understanding that obeys You—not knowledge that hardens my heart."
+  },
+  {
+   "number": 46,
+   "duaAr": "اللهم يا الْحَكِيمُ، ائتني فهمًا في كتابك وأنت أسمع وأبصر.",
+   "duaEn": "O Allah, You are Al Hakeem — The Perfectly Wise. Rescue me from pretending I know while I am still blind to my need of You."
+  },
+  {
+   "number": 47,
+   "duaAr": "اللهم يا الْوَدُودُ، احفظني برحمتك من هواجس الذنب وضيق الصدر.",
+   "duaEn": "O Allah, You are Al Wudood — The Most Loving. Grant me relief that only Your mercy can fashion, not my own plans."
+  },
+  {
+   "number": 48,
+   "duaAr": "اللهم يا الْمَجِيدُ، انصر الحقّ فيّ على الباطل حتى تطمئنّ نفسي.",
+   "duaEn": "O Allah, You are Al Majeed — The Glorious One, The Most Honorable. Do not let me boast in strength; let awe of You be my dignity."
+  },
+  {
+   "number": 49,
+   "duaAr": "اللهم يا الْبَاعِثُ، اصطنع لي فرجًا من ضيق لا أستطيع وصفه.",
+   "duaEn": "O Allah, You are Al Baa'ith — The Resurrector. Teach me a dua today I will still mean tomorrow."
+  },
+  {
+   "number": 50,
+   "duaAr": "اللهم يا الشَّهِيدُ، انصرني على عدّي بغير افتخار إن غلبت.",
+   "duaEn": "O Allah, You are Ash Shaheed — The Witness. Let justice from You protect me when human strength would fail."
+  },
+  {
+   "number": 51,
+   "duaAr": "اللهم يا الْحَقُّ، اجعل شهادتي لله حقًّا لا مظنةَ فخر.",
+   "duaEn": "O Allah, You are Al Haqq — The Truth. Rescue me from ‘fairness’ that ignores heaven’s scales."
+  },
+  {
+   "number": 52,
+   "duaAr": "اللهم يا الْوَكِيلُ، ائتني صبرًا حسنًا على أقدارٍ لا أستوعبها.",
+   "duaEn": "O Allah, You are Al Wakeel — The Trustee. Bless the hidden hours of worship tied to remembering this name."
+  },
+  {
+   "number": 53,
+   "duaAr": "اللهم يا الْقَوِيُّ، لا تكّلني إلى من لا يغني عني قهره دون رضاك.",
+   "duaEn": "O Allah, You are Al Qawiyy — The Possessor of all strength. When fear of harm grips me, let trust in Your power steady my breath."
+  },
+  {
+   "number": 54,
+   "duaAr": "اللهم يا الْمَتِينُ، اجعل قدرتك لي معونة لا تكبرًا، بل خشيةً وأدبًا.",
+   "duaEn": "O Allah, You are Al Mateen — The Forceful. Grant me courage that asks help from You, not from wrongdoing."
+  },
+  {
+   "number": 55,
+   "duaAr": "اللهم يا الْوَلِيُّ، وزّعني على مراحل الخير دون إرهاقٍ يكسرني.",
+   "duaEn": "O Allah, You are Al Waliyy — The Protector. Turn my hesitation into tawakkul paired with effort."
+  },
+  {
+   "number": 56,
+   "duaAr": "اللهم يا الْحَمِيدُ، يا من له الأسماء الحسنى اجعل هذا الاسم سبيلًا لي إلى رضوانك.",
+   "duaEn": "O Allah, You are Al Hameed — The Praised. Combine for me safety in religion and decency in worldly duties."
+  },
+  {
+   "number": 57,
+   "duaAr": "اللهم يا الْمُحْصِي، ثبّتني على طريقة أهل الإخلاص وأنت بالمرصاد.",
+   "duaEn": "O Allah, You are Al Muhsi — The All-Enumerating, The Counter. Make me truthful with You in secret, since You are the All-Knowing."
+  },
+  {
+   "number": 58,
+   "duaAr": "اللهم يا الْمُبْدِئُ، لا تكلني إلى سواك في طلب الرزق فأذل.",
+   "duaEn": "O Allah, You are Al Mubdi — The Originator. Let my table remind me of stewardship, not entitlement."
+  },
+  {
+   "number": 59,
+   "duaAr": "اللهم يا الْمُعِيدُ، قرّبني من الصادقين في القول والعمل.",
+   "duaEn": "O Allah, You are Al Mu'eed — The Restorer. In pain, let this name be balm—not a slogan, but a lifeline."
+  },
+  {
+   "number": 60,
+   "duaAr": "اللهم يا الْمُحْيِي، ارزقني حلالًا طيّبًا يكفُفُوني عن الحرام.",
+   "duaEn": "O Allah, You are Al Muhiy — The Giver of life. Provide for me in ways that keep me grateful, not grasping."
+  },
+  {
+   "number": 61,
+   "duaAr": "اللهم يا اَلْمُمِيتُ، اجعل عزّتي في خوفك وخشيتك لا في مظاهر العاجل.",
+   "duaEn": "O Allah, You are Al Mumeet — The Taker of life. Save me from misusing any strength You lend me over myself or others."
+  },
+  {
+   "number": 62,
+   "duaAr": "اللهم يا الْحَيُّ، لا تذرني لعرض الدنيا فأنسى ملك الآخرة.",
+   "duaEn": "O Allah, You are Al Haiyy — The Ever Living. Let my deadlines and debts not make me forget the Final Dominion."
+  },
+  {
+   "number": 63,
+   "duaAr": "اللهم يا الْقَيُّومُ، انقلني من التشتت إلى تركيز الوجهة.",
+   "duaEn": "O Allah, You are Al Qayyoom — The Self Existing. When I fear choosing wrong, remind me You love the sincerely guided."
+  },
+  {
+   "number": 64,
+   "duaAr": "اللهم يا الْوَاجِدُ، اكتب لي عندك خيرًا أراه وأخيرًا لا أراه.",
+   "duaEn": "O Allah, You are Al Waajid — The Perceiver. Protect my livelihood from what would stain this invocation."
+  },
+  {
+   "number": 65,
+   "duaAr": "اللهم يا الْمَاجِدُ، لا تكّلني إلى من لا يغني عني قهره دون رضاك.",
+   "duaEn": "O Allah, You are Al Maajid — The Glorious. When fear of harm grips me, let trust in Your power steady my breath."
+  },
+  {
+   "number": 66,
+   "duaAr": "اللهم يا الْواحِدُ، يا من له الأسماء الحسنى اجعل هذا الاسم سبيلًا لي إلى رضوانك.",
+   "duaEn": "O Allah, You are Al Waahid — The Only One. Combine for me safety in religion and decency in worldly duties."
+  },
+  {
+   "number": 67,
+   "duaAr": "اللهم يا اَلاَحَدُ، لا تخذلني بعد أن علّمتني أنّك سميع قريب.",
+   "duaEn": "O Allah, You are Al Ahad — The One. When I feel ordinary, remind me this name is not ordinary."
+  },
+  {
+   "number": 68,
+   "duaAr": "اللهم يا الصَّمَدُ، قرّبني من السند الحقّ دون أن أستعين بظلم.",
+   "duaEn": "O Allah, You are As Samad — The Supreme Provider. Rescue me from feeling safe while disobeying, for You are irresistible."
+  },
+  {
+   "number": 69,
+   "duaAr": "اللهم يا الْقَادِرُ، قوّني على شهوات نفسي فأنت القوّي المتين.",
+   "duaEn": "O Allah, You are Al Qaadir — The Powerful. When I feel powerless, remind me that no barrier survives Your will."
+  },
+  {
+   "number": 70,
+   "duaAr": "اللهم يا الْمُقْتَدِرُ، انصر الحقّ فيّ على الباطل حتى تطمئنّ نفسي.",
+   "duaEn": "O Allah, You are Al Muqtadir — The Creator of all power. Do not let me boast in strength; let awe of You be my dignity."
+  },
+  {
+   "number": 71,
+   "duaAr": "اللهم يا الْمُقَدِّمُ، ائتني فهمًا في كتابك وأنت أسمع وأبصر.",
+   "duaEn": "O Allah, You are Al Muqaddim — The Expediter. Rescue me from pretending I know while I am still blind to my need of You."
+  },
+  {
+   "number": 72,
+   "duaAr": "اللهم يا الْمُؤَخِّرُ، لا تذرني لجهلي؛ علّمني ما ينجيني.",
+   "duaEn": "O Allah, You are Al Mu’akhir — The Delayer. Bless me with discernment between a good step and a slippery one."
+  },
+  {
+   "number": 73,
+   "duaAr": "اللهم يا الأوَّلُ، أذهب عني كلّ غشّ في الدين والمعاش.",
+   "duaEn": "O Allah, You are Al Awwal — The First. Guard my tongue from sarcasm that fights the dignity of Your names."
+  },
+  {
+   "number": 74,
+   "duaAr": "اللهم يا الآخِرُ، اجمع نفع الدنيا والآخرة في دعوتي.",
+   "duaEn": "O Allah, You are Al Aakhir — The Last. When I succeed, let this name humble me instead of advertising me."
+  },
+  {
+   "number": 75,
+   "duaAr": "اللهم يا الظَّاهِرُ، انصر الحقّ فيّ على الباطل حتى تطمئنّ نفسي.",
+   "duaEn": "O Allah, You are Az Zaahir — The Manifest. Do not let me boast in strength; let awe of You be my dignity."
+  },
+  {
+   "number": 76,
+   "duaAr": "اللهم يا الْبَاطِنُ، قرّبني من الصادقين في القول والعمل.",
+   "duaEn": "O Allah, You are Al Baatin — The Hidden. In pain, let this name be balm—not a slogan, but a lifeline."
+  },
+  {
+   "number": 77,
+   "duaAr": "اللهم يا الْوَالِي، ائتني فهمًا في كتابك وأنت أسمع وأبصر.",
+   "duaEn": "O Allah, You are Al Waali — The Governor. Rescue me from pretending I know while I am still blind to my need of You."
+  },
+  {
+   "number": 78,
+   "duaAr": "اللهم يا الْمُتَعَالِي، أعزّني بطاعتك ولا تذلّني بمعصيتك.",
+   "duaEn": "O Allah, You are Al Muta’ali — The Supreme One. Let Your power lift me without inflating my ego; keep me humble under Your might."
+  },
+  {
+   "number": 79,
+   "duaAr": "اللهم يا الْبَرُّ، ارزقني حلالًا طيّبًا يكفُفُوني عن الحرام.",
+   "duaEn": "O Allah, You are Al Barr — The Doer of Good. Provide for me in ways that keep me grateful, not grasping."
+  },
+  {
+   "number": 80,
+   "duaAr": "اللهم يا التَّوَابُ، امسح عني ما أفسدته يداي برحمتك التي كتبت على نفسك.",
+   "duaEn": "O Allah, You are At Tawwaab — The Guide to Repentence. Let the meaning of this name settle in my chest until I am gentler with others."
+  },
+  {
+   "number": 81,
+   "duaAr": "اللهم يا الْمُنْتَقِمُ، اجعل اسمك لي حصنًا من مكائد الهوى والفشل.",
+   "duaEn": "O Allah, You are Al Muntaqim — The Avenger. Let fear of Your rightful severity keep me tender, not cynical."
+  },
+  {
+   "number": 82,
+   "duaAr": "اللهم يا العَفُوُّ، اجعل لي من رحمتك نصيبًا في كلّ خير تقرّبني إليك.",
+   "duaEn": "O Allah, You are Al Afuww — The Forgiver. Let my nights and days be salted with gratitude for mercy I cannot measure."
+  },
+  {
+   "number": 83,
+   "duaAr": "اللهم يا الرَّؤُوفُ، املأ صدري إيمانًا يدوم مع المحن واليسر.",
+   "duaEn": "O Allah, You are Ar Ra’oof — The Most Kind. Keep calling me upward when my mood pulls me downward."
+  },
+  {
+   "number": 84,
+   "duaAr": "اللهم يا مَالِكُ الْمُلْكِ، انصر الحقّ فيّ على الباطل حتى تطمئنّ نفسي.",
+   "duaEn": "O Allah, You are Maalik Ul Mulk — The Owner / Soverign of All. Do not let me boast in strength; let awe of You be my dignity."
+  },
+  {
+   "number": 85,
+   "duaAr": "اللهم يا ذُوالْجَلاَلِ وَالإكْرَامِ، ثبّتني على طريقة أهل الإخلاص وأنت بالمرصاد.",
+   "duaEn": "O Allah, You are Dhu Al Jalaali Wa Al Ikraam — Possessor of Majesty and Bounty. Make me truthful with You in secret, since You are the All-Knowing."
+  },
+  {
+   "number": 86,
+   "duaAr": "اللهم يا الْمُقْسِطُ، قوّني على شهوات نفسي فأنت القوّي المتين.",
+   "duaEn": "O Allah, You are Al Muqsit — The Equitable One. When I feel powerless, remind me that no barrier survives Your will."
+  },
+  {
+   "number": 87,
+   "duaAr": "اللهم يا الْجَامِعُ، ألبسني من عظمته خشيةً ومن جلاله أدبًا.",
+   "duaEn": "O Allah, You are Al Jaami' — The Gatherer. Let my routine today reflect gratitude for what this name unveils of You."
+  },
+  {
+   "number": 88,
+   "duaAr": "اللهم يا الْغَنِيُّ، اصطنع لي فرجًا من ضيق لا أستطيع وصفه.",
+   "duaEn": "O Allah, You are Al Ghaniyy — The Rich One. Teach me a dua today I will still mean tomorrow."
+  },
+  {
+   "number": 89,
+   "duaAr": "اللهم يا الْمُغْنِي، لا ترفعني باسمك ثم تورطني في كبر.",
+   "duaEn": "O Allah, You are Al Mughi — The Enricher. In joy, let this name be grounding—not forgotten in noise."
+  },
+  {
+   "number": 90,
+   "duaAr": "اللهم يا اَلْمَانِعُ، ألهمني اختيارًا يرضيك فيما أشكك فيه.",
+   "duaEn": "O Allah, You are Al Maani' — The Preventer of harm. Let my reading of Your signs end in action, not endless doubt."
+  },
+  {
+   "number": 91,
+   "duaAr": "اللهم يا الضَّارَّ، قرّبني من السند الحقّ دون أن أستعين بظلم.",
+   "duaEn": "O Allah, You are Ad Daaarr — The Creator of the harmful. Rescue me from feeling safe while disobeying, for You are irresistible."
+  },
+  {
+   "number": 92,
+   "duaAr": "اللهم يا النَّافِعُ، اجعل قدرتك لي معونة لا تكبرًا، بل خشيةً وأدبًا.",
+   "duaEn": "O Allah, You are An Naafi’ — The Bestower of Benefits. Grant me courage that asks help from You, not from wrongdoing."
+  },
+  {
+   "number": 93,
+   "duaAr": "اللهم يا النُّورُ، انصر الحقّ في لساني وقلبي ولا تكلني للجور.",
+   "duaEn": "O Allah, You are An Noor — The Light. When I wrong others, let this name bring me to repair, not denial."
+  },
+  {
+   "number": 94,
+   "duaAr": "اللهم يا الْهَادِي، اجعل سمعي وبصري وقلبي معصومة لك بعدما أنعمت.",
+   "duaEn": "O Allah, You are Al Haadi — The Guider. Let my heart prefer what You love, for You are acquainted with its every fold."
+  },
+  {
+   "number": 95,
+   "duaAr": "اللهم يا الْبَدِيعُ، ثبّتني على دينك وقوّ ظهري بصدق الاعتماد عليك.",
+   "duaEn": "O Allah, You are Al Badi' — The Incomparable Originator. Make my victory inner—over caprice—before any outward win."
+  },
+  {
+   "number": 96,
+   "duaAr": "اللهم يا اَلْبَاقِي، أذهب عني كلّ غشّ في الدين والمعاش.",
+   "duaEn": "O Allah, You are Al Baaqi — The Everlasting One. Guard my tongue from sarcasm that fights the dignity of Your names."
+  },
+  {
+   "number": 97,
+   "duaAr": "اللهم يا الْوَارِثُ، ائتني صبرًا حسنًا على أقدارٍ لا أستوعبها.",
+   "duaEn": "O Allah, You are Al Waarith — The Inhertior. Bless the hidden hours of worship tied to remembering this name."
+  },
+  {
+   "number": 98,
+   "duaAr": "اللهم يا الرَّشِيدُ، اجعل شهادتي لله حقًّا لا مظنةَ فخر.",
+   "duaEn": "O Allah, You are Ar Rasheed — The Most Righteous Guide. Rescue me from ‘fairness’ that ignores heaven’s scales."
+  },
+  {
+   "number": 99,
+   "duaAr": "اللهم يا الصَّبُورُ، ائتني علماً نافعاً وعملاً متّصلاً به يا أرحم الراحمين.",
+   "duaEn": "O Allah, You are As Saboor — The Patient One. Let my study of Your signs lead to humility, not argument."
+  }
+ ]
+}

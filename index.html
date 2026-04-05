@@ -1091,6 +1091,7 @@
 
       // 99 Names of Allah (with meanings) are loaded from ./public/data/allah99.json at runtime.
       const ALLAH_DATA_URL = "/data/allah99.json";
+      const ALLAH_DUAS_DATA_URL = "/data/allah99Duas.json";
 
       // Fallback for `file://` usage (the full list requires running via a local server so fetch() works).
       const ROOT_WORDS_FALLBACK = [
@@ -1169,11 +1170,15 @@
 
       function buildShortDua(nameObj) {
         if (!nameObj || !nameObj.arabic) return "";
+        const custom = String(nameObj.duaAr || "").trim();
+        if (custom) return custom;
         return `اللهم يا ${nameObj.arabic} ارحمني واهدني وأصلح قلبي.`;
       }
 
       function buildShortDuaEnglish(nameObj) {
         if (!nameObj) return "";
+        const custom = String(nameObj.duaEn || "").trim();
+        if (custom) return custom;
         const name = String(nameObj.latin || "").trim();
         if (!name) return "";
         return `O Allah, O ${name}, have mercy on me, guide me, and set right my heart.`;
@@ -2021,14 +2026,37 @@
         if (!res.ok) throw new Error("Failed to load Allah names dataset");
         const json = await res.json();
         const data = Array.isArray(json?.data) ? json.data : [];
-        allahNames = data.map((x) => ({
-          n: x.number,
-          arabic: x.name,
-          latin: x.transliteration,
-          meaning: x.en?.meaning || "",
-          desc: x.en?.desc || "",
-          found: x.found || ""
-        }));
+        const duaByN = new Map();
+        try {
+          const dr = await fetch(ALLAH_DUAS_DATA_URL, { cache: "force-cache" });
+          if (dr.ok) {
+            const dj = await dr.json();
+            const drows = Array.isArray(dj?.data) ? dj.data : [];
+            drows.forEach((r) => {
+              if (r && r.number != null) {
+                duaByN.set(r.number, {
+                  duaAr: String(r.duaAr || "").trim(),
+                  duaEn: String(r.duaEn || "").trim()
+                });
+              }
+            });
+          }
+        } catch (_) {
+          /* offline or missing file: fall back to generic dua in buildShortDua */
+        }
+        allahNames = data.map((x) => {
+          const d = duaByN.get(x.number) || {};
+          return {
+            n: x.number,
+            arabic: x.name,
+            latin: x.transliteration,
+            meaning: x.en?.meaning || "",
+            desc: x.en?.desc || "",
+            found: x.found || "",
+            duaAr: d.duaAr || "",
+            duaEn: d.duaEn || ""
+          };
+        });
       }
 
       async function init() {
@@ -2051,6 +2079,13 @@
           await loadAllahNames();
         } catch (_) {
           allahNames = null; // fall back to arabic+latin without meanings
+        }
+
+        // Refresh stored name object so it picks up merged dua lines from dataset.
+        if (allahNames && allahNames.length && state.day.selectedAllahName) {
+          const cur = state.day.selectedAllahName;
+          const hit = allahNames.find((x) => x.n === cur.n || x.arabic === cur.arabic);
+          if (hit) state.day.selectedAllahName = hit;
         }
 
         // If day key is missing or out of date, reset and handle streak.

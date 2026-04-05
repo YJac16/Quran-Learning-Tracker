@@ -1,6 +1,6 @@
 /* Quran Learning Tracker PWA service worker */
 
-const CACHE_VERSION = "quran-tracker-cache-v3";
+const CACHE_VERSION = "quran-tracker-cache-v4";
 const CACHE_NAME = CACHE_VERSION;
 
 // Keep the list small; the root-word dataset will be cached too.
@@ -10,7 +10,8 @@ const CORE_ASSETS = [
   "/manifest.json",
   "/sw.js",
   "/data/quranRootsDetailed.json",
-  "/data/allah99.json"
+  "/data/allah99.json",
+  "/data/allah99Duas.json"
 ];
 
 self.addEventListener("install", (event) => {
