@@ -1,6 +1,6 @@
 /* Quran Learning Tracker PWA service worker */
 
-const CACHE_VERSION = "quran-tracker-cache-v2";
+const CACHE_VERSION = "quran-tracker-cache-v3";
 const CACHE_NAME = CACHE_VERSION;
 
 // Keep the list small; the root-word dataset will be cached too.
@@ -31,16 +31,50 @@ self.addEventListener("activate", (event) => {
       .keys()
       .then((keys) =>
         Promise.all(
-          keys.map((key) => (key === CACHE_NAME ? null : caches.delete(key)))
+          keys.map((key) => (key === CACHE_NAME ? Promise.resolve() : caches.delete(key)))
         )
       )
       .then(() => self.clients.claim())
   );
 });
 
+function isAppDocumentRequest(req) {
+  if (req.mode === "navigate") return true;
+  if (req.destination === "document") return true;
+  try {
+    const u = new URL(req.url);
+    if (u.pathname === "/" || u.pathname === "/index.html") return true;
+  } catch (_) {}
+  return false;
+}
+
 self.addEventListener("fetch", (event) => {
   const req = event.request;
   if (req.method !== "GET") return;
+
+  // Always try the network first for HTML so deploys show up in Chrome (not stale cache-first).
+  if (isAppDocumentRequest(req)) {
+    event.respondWith(
+      fetch(req)
+        .then((res) => {
+          if (res && res.ok) {
+            const a = res.clone();
+            const b = res.clone();
+            caches.open(CACHE_NAME).then((cache) =>
+              Promise.all([
+                cache.put(req, a),
+                cache.put(new Request("/index.html", { method: "GET" }), b)
+              ])
+            );
+          }
+          return res;
+        })
+        .catch(() =>
+          caches.match(req).then((hit) => hit || caches.match("/index.html"))
+        )
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(req).then((cached) => {
@@ -48,13 +82,11 @@ self.addEventListener("fetch", (event) => {
 
       return fetch(req)
         .then((res) => {
-          // Cache successful responses for subsequent visits.
           const resClone = res.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(req, resClone));
           return res;
         })
         .catch(() => {
-          // For navigations, try the app shell.
           if (req.mode === "navigate") return caches.match("/index.html");
           return undefined;
         });

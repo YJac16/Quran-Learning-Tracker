@@ -2146,7 +2146,9 @@
         if ("serviceWorker" in navigator && location.protocol !== "file:") {
           window.addEventListener("load", async () => {
             try {
-              await navigator.serviceWorker.register("/sw.js");
+              await navigator.serviceWorker.register("/sw.js", {
+                updateViaCache: "none"
+              });
             } catch (_) {
               // Ignore registration failures (e.g., unsupported browser).
             }
